@@ -1,0 +1,25 @@
+{
+   "fullname": "Patrick Nguyen",
+   "org": "24/7 Inc.",
+   "emailaddrs": [
+      {"type": "work", "pref": 1, "value": "nguyen@voxify.com"}
+   ],
+   "telephones": [
+      {"type": "work", "pref": 1, "value": "+1 510 545 5005"},
+      {"type": "fax", "value": "+1 510 545 5055"}
+   ],
+   "addresses": [
+      {"type": "work", "format": "us", "value": "1151 Marina Village PkwynAlameda, CA 94501"}
+   ],
+   "urls": [
+      {"type": "work", "value": "http://247-inc.com/"}
+   ],
+   "src_accounts": [
+      {"name": "checking", "routing": "999000248", "number": "9999928541", "balance": "234.34"},
+      {"name": "savings", "routing": "999000361", "number": "9999928740", "balance": "554.11"}
+   ],
+   "dest_accounts": [
+      {"name": "platinum", "number": "9999888829481637", "balance": "1338.93", "datedue": "-2", "minpmt": "45.00"},
+      {"name": "gold", "number": "9999888826759163", "balance": "978.13", "datedue": "-5"}
+   ]
+}
