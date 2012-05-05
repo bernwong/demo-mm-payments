@@ -129,13 +129,14 @@
               <li>
              <!--  <label for="pmtamount" class="ui-hidden-accessible"/> -->
           <div class="" id="list-acctfrom"></div> 
-          <input type="text" name="pmtamount" id="pmtamount" value=""/>
-          <label for="pmtdate">Payment Date</label>
+          <label for="pmtamount"><span class="amtlabel">Amount</span></label>
+          <input type="text" name="pmtamount" id="pmtamount" class="amtdata" value=""/>
+          <label for="pmtdate"><span class="amtlabel">Payment Date</span></label>
 <!--
           <input name="pmtdate" id="pmtdate" type="text">
           -->
 
-<input name="pmtdate" id="pmtdate" type="date" data-role="datebox" data-options='{"mode": "calbox", "dateFormat":"MM/DD/YYYY"}' pickPageTheme="c" pickPageButtonTheme="c" onchange="updateEstDate()"/>
+<input name="pmtdate" id="pmtdate" type="date" class="amtdata" data-role="datebox" data-options='{"mode": "calbox", "dateFormat":"MM/DD/YYYY"}' pickPageTheme="c" pickPageButtonTheme="c" onchange="updateEstDate()"/>
 
               </li> 
           <!-- 
@@ -151,7 +152,7 @@
           <span id="estdate">estdate</span>
               </li>
           </ul>
-           <a href="#confirm" data-role="button" data-corners="false">Submit</a>
+          <a href="#confirm"><img class="submit-button" src="img/Payments-MakePayment-Submit-CapOne.png"/></a>
       </div>
   </div>
 </div>
@@ -244,9 +245,10 @@
           <input type="text" name="newacctrouting" id="newacctrouting" value="Routing #"/>
           <label for="newacctnumber"/>
           <input type="text" name="newacctnumber" id="newacctnumber" value="Account #"/>
+          <img class="check-image" src="img/Payments-NewAccount-CheckImage-CapOne.png"/>
               </li>
           </ul>
-          <a onclick="add_acct()" data-role="button" data-corners="false">Add Account</a>
+          <a onclick="add_acct()"><img class="submit-button" src="img/Payments-NewAccount-AddAccount-CapOne.png"/></a>
       </div>
   </div>
 </div>
@@ -271,16 +273,12 @@
     </div>
     <div>
         <!-- <div data-role="content" style="line-height: 1em">&nbsp;</div> -->
-        <div class="page-heading">Make a Payment</div> 
-        <div data-role="content">
+        <div class="page-heading">Payment is scheduled!</div> 
+        <div data-role="content" align="center">
             <ul data-role="listview" data-inset="true" data-theme="d">
                 <li><span id="txt_confirm"><span></li>
-                    </ul>
-                </div>
-                <div data-role="content">
-                    <a href="#survey" data-role="button" data-corners="false">Continue</a>
-                </div>
-            </div>
+             </ul>
+             <a href="#survey"><img class="submit-button" src="img/Payments-Scheduled-Continue-CapOne.png"/></a>
         </div>
     </div>
 </div>
@@ -295,7 +293,7 @@
   <div data-role="header" data-position="fixed" data-theme="b">
     <div class="logo">
       <table width="100%" border="0"><tr>
-        <td align="left"><a href="#dispute" data-rel="back" data-role="none"><img src="img/back.png" class="header-button"/></a></td>
+        <td align="left"><a href="#main-menu" data-rel="back" data-role="none"><img src="img/back.png" class="header-button"/></a></td>
       </tr></table>
     </div>
   </div>
@@ -341,7 +339,7 @@
 
   <div data-role="content">
     <div data-role="content" class="chat-bubble-cont">
-      <img src="img/chat-bubble.png" class="chat-bubble" />
+      <img src="img/Payments-Chat-AgentTextBubbleFilled-CapOne.png" class="chat-bubble" />
     </div>
     <div data-role="fieldcontain">
     <input type="text" name="question" id="question" style="color: gray"

@@ -106,7 +106,6 @@ AccountData.account = (function($) {
         $('<option value="add">Add New Account</option>').appendTo(list);
         $('<option>Select Account</option>').appendTo(list);
         list.selectmenu();
-        _active_src_number = list[0].value;
         //now hide the list by setting the parent div to hide
         //  This allows us to create another area to display more information 
         //  about the selection
@@ -171,9 +170,23 @@ AccountData.account = (function($) {
         var src_acct_name = src_acct.name;
         var src_acct_num = src_acct.number;
         var src_acct_num_last4 = src_acct_num.substr(-4);
-        var src_acct_balance = src_acct.balance;
-        var summary = '<span>' + src_acct.name +  " number: " + src_acct_num_last4 + 
-                      " balance: " + src_acct_balance + "</span>";
+        var src_acct_balance =  src_acct.balance;
+        //var summary = '<span>' + src_acct.name +  " number: " + src_acct_num_last4 + 
+        //              " balance: " + src_acct_balance + "</span>";
+        var summary = '<table width="100%" border="0">' +
+                     '<tr><td class="pmtacctlabel">Payment Account</td>';
+        // display balance only if available
+        if (src_acct_balance != null) {
+             summary += '<td class="availbalancelabel">Avail Balance</td>';
+        }
+        summary += '</tr><tr><td class="pmtacctdata">' + src_acct_name + '</td>';
+        // display balance only if available
+        if (src_acct_balance != null) { 
+            summary += '<td class="availbalancedata">$' + src_acct_balance + '</td>';
+        }
+        summary += '</tr></table>';
+
+        
         var div = $('#src-acct-info');
         div.empty();
         $(summary).appendTo(div);
@@ -182,22 +195,32 @@ AccountData.account = (function($) {
     var create_confirmation = function() {
         var confirm_num = 'TBW' +  Math.floor(Math.random()*100000001);
         var selected_cc_number = AccountData.account.active_cc_number();
-        var pay_to_name = "payto";
+        var cc_acct = dest_account();
+        var pay_to_name = cc_acct.name;
         var pay_to_number = $('#card-choice').val();
-        var pay_to_number_last4 = pay_to_number.substr(-4);
-        var pay_from_name = "payfrom";
+        var pay_to_number_last4 = "x" + pay_to_number.substr(-4);
+        var src_acct = src_account();
+        var pay_from_name = src_acct.name;
         var pay_from_number = $('#acct-choice').val();
-        var pay_from_number_last4 = pay_from_number.substr(-4);
+        var pay_from_number_last4 = "x" + pay_from_number.substr(-4);
         var pay_amt = $('#pmtamount').val();
         var pay_date = $('#pmtdate').val();
         var est_pay_date = $('#estdate').html();
         
-        var confirm_msg = "CONFIRMATION #:" + confirm_num +
-                          "PAY TO:" + pay_to_name + " " + pay_to_number_last4 +
-                          "PAY FROM:" + pay_from_name + " " +  pay_from_number_last4 +
-                          "PAYMENT AMOUNT:" + pay_amt +
-                          "PAYMENT DATE: " + pay_date +
-                          "EST POST DATE: " + est_pay_date; 
+        var confirm_msg = '<table width="100%" cellpadding="0" cellspacing="0">' + 
+                          '<tr><td class="confirmlabel">CONFIRMATION #:  </td>' +
+                          '<td class="confirmdata">' + confirm_num + '</td></tr>' +
+                          '<tr><td class="confirmlabel">PAY TO:  </td>' +
+                          '<td class="confirmdata">' + pay_to_name + " " + pay_to_number_last4 + '</td></tr>' +
+                          '<tr><td class="confirmlabel">PAY FROM:  </td>' +
+                          '<td class="confirmdata">' + pay_from_name + " " +  pay_from_number_last4 + '</td></tr>' +
+                          '<tr><td class="confirmlabel">PAYMENT AMOUNT:  </td>' +
+                          '<td class="confirmdata">' +  pay_amt + '</td></tr>' +
+                          '<tr><td class="confirmlabel">PAYMENT DATE:  </td>' +
+                          '<td class="confirmdata">' +  pay_date + '</td></tr>' +
+                          '<tr><td class="confirmlabel-noborder">EST POST DATE:  </td>' +
+                          '<td class="confirmdata-noborder">' + est_pay_date + '</td></tr>' +
+                          '</table>';
         $('#txt_confirm').html(confirm_msg); 
     
     }
@@ -233,7 +256,10 @@ AccountData.account = (function($) {
             return 2;
         }
         cItems[numItems] = {"name": acctname, "routing": acctrouting, "number": acctnum};
-        _active_src_number = acctnum; 
+        _active_src_number = acctnum;
+        alert(acctnum);
+        populate_src_acct_info();
+        alert("Pop");
         return 0; 
     }
 

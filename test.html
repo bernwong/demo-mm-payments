@@ -1,0 +1,44 @@
+<html>
+<head>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.20/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.8.20/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://jquery-ui.googlecode.com/svn/tags/latest/external/jquery.bgiframe-2.1.2.js" type="text/javascript"></script>
+    <script src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js" type="text/javascript"></script>
+
+    <script src="js/jquery.ui.core.js"></script>
+    <script src="js/jquery.ui.datepicker.js"></script>
+<!--
+    <style type="text/css">
+            
+        #jq-books{width:200px;float:right;margin-right:0}
+        #jq-books li{line-height:1.25em;margin:1em 0 2.8em;clear:left}
+        #home-content-wrapper #jq-books a.jq-bookImg{float:left;margin-right:10px;width:55px;height:70px}
+        #jq-books h3{margin:0 0 .2em 0}
+        #home-content-wrapper #jq-books h3 a{font-size:1em;color:black;}
+        #home-content-wrapper #jq-books a.jq-buyNow{font-size:1em;color:white;display:block;background:url(http://static.jquery.com/files/rocker/images/btn_blueSheen.gif) 50% repeat-x;text-decoration:none;color:#fff;font-weight:bold;padding:.2em .8em;float:left;margin-top:.2em;}
+
+    </style> -->
+<script>
+	$(function() {
+		$( "#datepicker" ).datepicker();
+	});
+	</script>
+
+</head>
+<body>
+
+<div class="demo">
+
+<p>Date: <input id="datepicker" type="text"></p>
+
+</div><!-- End demo -->
+
+
+
+<div style="display: none;" class="demo-description">
+<p>The datepicker is tied to a standard form input field.  Focus on the input (click, or use the tab key) to open an interactive calendar in a small overlay.  Choose a date, click elsewhere on the page (blur the input), or hit the Esc key to close. If a date is chosen, feedback is shown as the input's value.</p>
+</div><!-- End demo-description -->
+</body>
+</html>

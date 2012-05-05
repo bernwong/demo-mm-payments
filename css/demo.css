@@ -30,6 +30,16 @@
     padding-top: 2px;
 }
 
+.submit-button {
+    width: 300px;
+    align: center;
+    padding: 2px;
+}
+
+.check-image {
+    width: 300px;
+}
+
 .page-heading {
     text-align: center;
     font-size: 14pt;
@@ -118,6 +128,96 @@ img.main-menu-item {
 
 .center-button {
 /*    width: 100px !important;*/
+}
+
+/* Make a payment */
+
+.pmtacctlabel {
+    font-size: 6pt; 
+    font-weight: bold;
+    font-family: Arial;
+    color: #0a4c83;
+    text-align: left;
+}
+
+.pmtacctdata {
+    font-size: 6pt; 
+    font-weight: normal;
+    font-family: Arial;
+    color: #656565;
+    text-align: left;
+}
+
+.availbalancelabel {
+    font-size: 6pt; 
+    font-weight: bold;
+    font-family: Arial;
+    color: #656565;
+    text-align: right;
+}
+
+.availbalancedata {
+    font-size: 6pt; 
+    font-weight: regular;
+    font-family: Arial;
+    color: #656565;
+    text-align: right;
+}
+
+.amtlabel {
+    font-size: 6pt;
+    font-weight: bold;
+    font-family: Arial;
+    color: #0a4c83;
+}
+
+
+.amtdata {
+    font-size: 8pt;
+    font-weight: regular; 
+    font-family: Arial;
+    color: #353535;
+}
+
+.confirmlabel {
+    font-size: 8pt;
+    font-weight: bold;
+    font-family: Arial;
+    color: #2073ae;
+    border-bottom: 1px solid #BBB;
+    width: 30%;
+    white-space: nowrap;
+    line-height: 3em;
+}
+
+.confirmdata {
+    font-size: 8pt;
+    font-weight: regular;
+    font-family: Arial;
+    color: #656565;
+    border-bottom: 1px solid #BBB;
+    white-space: nowrap;
+    line-height: 3em;
+}
+
+
+.confirmlabel-noborder {
+    font-size: 8pt;
+    font-weight: bold;
+    font-family: Arial;
+    color: #2073ae;
+    width: 30%;
+    white-space: nowrap;
+    line-height: 3em;
+}
+
+.confirmdata-noborder {
+    font-size: 8pt;
+    font-weight: regular;
+    font-family: Arial;
+    color: #656565;
+    white-space: nowrap;
+    line-height: 3em;
 }
 
 /* Recent transactions and transaction details */
