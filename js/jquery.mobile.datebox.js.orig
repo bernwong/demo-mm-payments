@@ -38,14 +38,12 @@
 		defaultTheme: 'c',
 		pickPageTheme: 'b',
 		pickPageInputTheme: 'e',
-
-		pickPageButtonTheme: 'c',
-		pickPageTodayButtonTheme: 'e',
-		pickPageHighButtonTheme: 'b',
-
-		pickPageOHighButtonTheme: 'a',
+		pickPageButtonTheme: 'a',
+		pickPageHighButtonTheme: 'e',
+		pickPageOHighButtonTheme: 'e',
 		pickPageOAHighButtonTheme: 'e',
 		pickPageODHighButtonTheme: 'e',
+		pickPageTodayButtonTheme: 'e',
 		pickPageSlideButtonTheme: 'd',
 		pickPageFlipButtonTheme: 'b',
 		forceInheritTheme: false,

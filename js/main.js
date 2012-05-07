@@ -112,16 +112,14 @@ function payment_beforeshow() {
       
   });
   $('#datebox').hide();
-/*
-// $('#pmtdatehidden').datebox('open');
-   $('#pmtdatehidden').bind('datebox', function(e,p) {
-           alert(p.method);
-           alert(e[0]);
-      if ( p.method === 'dooffset' ) {
-         $('#pmtdatehidden').datebox('close');
-      }
-   });
-   */
+
+  $('#pmtdatehidden').bind('datebox', function(e,p) {
+          if ( p.method === 'close' ) {
+          $('#pmtdate').val($('#pmtdatehidden').val());
+          AccountData.account.updateEstDate();
+          }
+          });
+   
 }
 
 function payment_show() {
@@ -235,6 +233,9 @@ function payment_grammarHandler(result) {
         else if (action == 'addsource') {
             $.mobile.changePage("#acct_add");
         }
+        else if (action == 'help') {
+            $.mobile.changePage("#chat");
+        }
     }
 }
 
@@ -340,6 +341,10 @@ function acctadd_grammarHandler(result) {
             $("#newacctnumber").val(number);
             NativeBridge.setGrammar("grammars/add_account.grxml", null, addacct_grammarHandler);
         }
+        else if (action == 'help') {
+            $.mobile.changePage("#chat");
+        }
+
     }
 }
 
@@ -363,6 +368,9 @@ function add_acct() {
 //-----------------------------------------------------------------------------
 
 function confirm_beforeshow() {
+    NativeBridge.setMessage(null);
+    NativeBridge.setGrammar(null, null, emptyGrammarHandler);
+
     AccountData.account.createConfirmationMsg();
     AccountData.account.initDropdown('last-4-digits-confirm', true, function(dropdown, data) {
             // Callback sets up onchange handler for dropdown

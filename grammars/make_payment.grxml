@@ -78,6 +78,19 @@
       </tag>
     </item>
 
+    <item>
+        <one-of>
+            <item>
+                help 
+            </item>
+            <item>
+                speak with an agent 
+            </item>
+        </one-of>
+        <tag>
+            out.SLOTS.action = "help";
+        </tag>
+    </item>
   </one-of> 
 </rule>
 

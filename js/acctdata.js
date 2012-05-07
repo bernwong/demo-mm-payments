@@ -186,9 +186,12 @@ AccountData.account = (function($) {
     var populate_payment_due = function() {
         var acct = dest_account();
         var date = AccountData.utils.date_due(acct.datedue);
-        var name = acct.name;
+        var name = capitaliseFirstLetter(acct.name);
      //   $('#minimum-payment-value').html('$' + acct.balance);
         var duedate = $('#payment-due-value').html(date);
+        //set the due date box in the datebox picker widget
+        var datebox_date = AccountData.utils.date_due_datebox(acct.datedue);
+        $('#pmtdatehidden').data('datebox').options.highDates = [datebox_date];
         $('#payment-due-value-acctfrom').html(date);
         $('#acctname').html(name);
         $('#acctname1').html(name);
@@ -258,7 +261,7 @@ AccountData.account = (function($) {
                           '<td class="confirmdata">' + pay_to_name + " " + pay_to_number_last4 + '</td></tr>' +
                           '<tr><td class="confirmlabel">PAY FROM:  </td>' +
                           '<td class="confirmdata">' + pay_from_name + " " +  pay_from_number_last4 + '</td></tr>' +
-                          '<tr><td class="confirmlabel">PAYMENT AMOUNT:  </td>' +
+                          '<tr><td class="confirmlabel">PAYMENT AMOUNT:&nbsp;&nbsp;</td>' +
                           '<td class="confirmdata">' +  pay_amt + '</td></tr>' +
                           '<tr><td class="confirmlabel">PAYMENT DATE:  </td>' +
                           '<td class="confirmdata">' +  pay_date + '</td></tr>' +
@@ -447,6 +450,7 @@ AccountData.utils = (function($) {
       day:     date.getDate(),
       dow:     dows[date.getDay()],
       month:   mons[date.getMonth()],
+      monthval: date.getMonth() + 1,
       year:    date.getYear() + 1900,
       hhmmss:  time,
       hours:   hour,
@@ -512,11 +516,32 @@ AccountData.utils = (function($) {
       return obj.month + ' ' + obj.day + ', ' + obj.year;
   };
 
+  var date_due_datebox = function(datedue) {
+      var tstamp = 0;
+      if (datedue.match(/^-?\d+$/)) {
+          tstamp = $.now() + (parseFloat(datedue) * 24 * 60 * 60 * 1000) * -1;
+      } else {
+          tstamp = Date.parse(datedue);
+      }
+      var obj = timestamp_to_object(tstamp);
+      var monthval = obj.monthval;
+      if (monthval < 10) {
+          monthval = '0' + monthval;
+      }
+      var day = obj.day;
+      if (day < 10) {
+          day = '0' + day;
+      }
+      return obj.year+ '-' + monthval + '-' + day;
+  };
+
+
   return {
     timestamp_to_object: timestamp_to_object,
     transaction_date: transaction_date,
     transaction_date_object: transaction_date_object,
     merchant_decode: merchant_decode,
-    date_due: date_due
+    date_due: date_due,
+    date_due_datebox: date_due_datebox
   };
 })(jQuery);

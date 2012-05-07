@@ -83,16 +83,13 @@
     $('#payment').on('pagebeforehide', payment_beforehide);
   </script>
 
-  <div data-role="header" data-position="fixed" data-theme="b"> 
+  
+  <div data-role="header" data-position="fixed" data-theme="b">
     <div class="logo"></div>
     <div data-role="content" class="card-bits" data-theme="d">
       <span id="acctname1" class="card-type" data-role="content">Personal Credit Card</span>
       <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-payment"></div></div>
     </div>
-  </div>
-<!-- WORKAROUND - stop the header here so the datebox object doesn't get partially hidden -->
- <div id="paymentoptions" role="content">
-
     <div class="card-bits payment-due-notice">
       <div class="ui-grid-a">
           <div class="ui-block-a right-border">
@@ -120,12 +117,10 @@
          </div>
       </div>
     </div>
+  </div>
 
-    <!-- commented out due to workaround for datebox --> 
-    <!--  </div> END OF HEADER -->
-<!--  <div id="paymentoptions" role="content"> -->
-
-       <div data-role="content" style="line-height: 2em">&nbsp;</div>
+  <div id="paymentoptions" role="content">
+      <div data-role="content" style="line-height: 2em">&nbsp;</div>
       <div class="page-heading">Make a Payment</div>
       <div data-role="content">
 <!--
