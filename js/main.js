@@ -36,7 +36,7 @@ var mainmenu_prompted = false;
 var mainmenu_reco_errors = 0;
 
 function mainmenu_grammar() {
-//  return gDynamicGrammarRootUrl + "?type=mainmenu&merchants=" + merchants();
+  return "grammars/mainmenu.grxml";
 }
 
 function mainmenu_beforeshow() {
@@ -66,66 +66,18 @@ function mainmenu_beforehide() {
 }
 
 function mainmenu_grammarHandler(result) {
-  if (result != null && result.length > 0) {
-    var interp = result[0].interpretation;
-    var action = interp.action.toLowerCase();
-    NativeBridge.log("mainmenu_grammarHandler - reco result: " + action);
-
-    if (action == "recent transactions") {
-      mainmenu_reco_errors = 0;
-      $.mobile.changePage($("#recent-transactions"));
-
-    } else if (action == "filter") {
-      NativeBridge.log("mainmenu_grammarHandler - filter" +
-                       ", field: " + interp.field +
-                       ", comparison: " + interp.comparison +
-                       ", value: " + interp.value);
-
-      var field = interp.field.toLowerCase();
-
-      if (field == "date") {
-        var date = new Date(parseFloat(interp.value));
-        NativeBridge.log("mainmenu_grammarHandler - date: " + date.toLocaleString());
-        TransactionList.filter_by_date(parseFloat(interp.value), interp.comparison.toLowerCase());
-
-      } else if (field == "merchant") {
-        TransactionList.filter_by_merchant(interp.value);
-
-      } else if (field == "amount") {
-        TransactionList.filter_by_amount(interp.value, interp.comparison.toLowerCase());
-      }
-
-      mainmenu_reco_errors = 0;
-      $.mobile.changePage($("#recent-transactions"));
-
-    } else if (action == "payment" ||
-               action == "atm" ||
-               action == "rewards" ||
-               action == "contact" ||
-               action == "report missing") {
-      NativeBridge.log("mainmenu_grammarHandler - not implemented");
-      mainmenu_reco_errors++;
-
-    } else if (action == "chat") {
-      mainmenu_reco_errors = 0;
-      $.mobile.changePage($("#chat"));
-
+    if (result == null || result.length == 0) {
+        NativeBridge.playAudio("audio/sorry.wav");
+        NativeBridge.setMessage("What?");
+        NativeBridge.setGrammar(mainmenu_grammar(), null, mainmenu_grammarHandler);
     } else {
-      mainmenu_reco_errors++;
-      NativeBridge.log("mainmenu_grammarHandler - unhandled:" + action + ".");
+        var interpretation = result[0].interpretation;
+        NativeBridge.setMessage(interpretation);
+        if (interpretation == 'payment') {
+            $.mobile.changePage("#payment");
+        }
     }
-  } else {
-    mainmenu_reco_errors++;
-    NativeBridge.log("mainmenu_grammarHandler - no reco result.");
-  }
-
-  NativeBridge.log("mainmenu_grammarHandler - mainmenu_reco_errors: " + mainmenu_reco_errors);
-  if (mainmenu_reco_errors > 0) {
-    NativeBridge.setGrammar(mainmenu_grammar(), null, mainmenu_grammarHandler);
-  }
 }
-
-
 
 
 
@@ -135,10 +87,11 @@ var payment_prompted = false;
 var payment_reco_errors = 0;
 
 function payment_grammar() {
-//  return gDynamicGrammarRootUrl + "?type=mainmenu&merchants=" + merchants();
+  return "grammars/make_payment.grxml";
 }
 
 function payment_beforeshow() {
+  NativeBridge.setMessage(null);
   AccountData.account.init(gAcctNumber);
  
   AccountData.account.initDropdown('last-4-digits-payment', false, function(dropdown, data) {
@@ -153,12 +106,27 @@ function payment_beforeshow() {
 
   AccountData.account.initAcctDropdown('list-acctfrom', false, function(list, data) {
           //        alert("test");
-    }); 
+  });
+
+  AccountData.account.initPmtOptsDropdown("list-payment-amount", false, function(list, data) {
+      
+  });
+  $('#datebox').hide();
+/*
+// $('#pmtdatehidden').datebox('open');
+   $('#pmtdatehidden').bind('datebox', function(e,p) {
+           alert(p.method);
+           alert(e[0]);
+      if ( p.method === 'dooffset' ) {
+         $('#pmtdatehidden').datebox('close');
+      }
+   });
+   */
 }
 
 function payment_show() {
   payment_reco_errors = 0;
-  NativeBridge.setMessage("How can I help you?");
+//  NativeBridge.setMessage(null);
   NativeBridge.setGrammar(payment_grammar(), null, payment_grammarHandler);
   if (!payment_prompted) {
     NativeBridge.playAudio("audio/RT_Menu_01.wav");
@@ -171,63 +139,103 @@ function payment_beforehide() {
 }
 
 function payment_grammarHandler(result) {
-  if (result != null && result.length > 0) {
-    var interp = result[0].interpretation;
-    var action = interp.action.toLowerCase();
-    NativeBridge.log("payment_grammarHandler - reco result: " + action);
 
-    if (action == "recent transactions") {        
-      payment_reco_errors = 0;
-      $.mobile.changePage($("#recent-transactions"));
-
-    } else if (action == "filter") {
-      NativeBridge.log("payment_grammarHandler - filter" +
-                       ", field: " + interp.field + 
-                       ", comparison: " + interp.comparison +
-                       ", value: " + interp.value);
-
-      var field = interp.field.toLowerCase();
-
-      if (field == "date") {
-        var date = new Date(parseFloat(interp.value));
-        NativeBridge.log("payment_grammarHandler - date: " + date.toLocaleString());
-        TransactionList.filter_by_date(parseFloat(interp.value), interp.comparison.toLowerCase());
-
-      } else if (field == "merchant") {
-        TransactionList.filter_by_merchant(interp.value);
-
-      } else if (field == "amount") {
-        TransactionList.filter_by_amount(interp.value, interp.comparison.toLowerCase());
-      }
-
-      payment_reco_errors = 0;
-      $.mobile.changePage($("#recent-transactions"));
-
-    } else if (action == "payment" ||
-               action == "atm" ||
-               action == "rewards" ||
-               action == "contact" ||
-               action == "report missing") {
-      NativeBridge.log("payment_grammarHandler - not implemented");
-      payment_reco_errors++;
-
-    } else if (action == "chat") {
-      payment_reco_errors = 0;
-      $.mobile.changePage($("#chat"));
-
+    if (result == null || result.length == 0) {
+        NativeBridge.playAudio("audio/sorry.wav");
+        NativeBridge.setMessage("What?");
+        //    NativeBridge.playTTS("male", "I'm sorry, could you repeat that?");
+        NativeBridge.setGrammar(payment_grammar(), null, payment_grammarHandler);
     } else {
-      payment_reco_errors++;
-      NativeBridge.log("payment_grammarHandler - unhandled:" + action + ".");
-    }
-  } else {
-    payment_reco_errors++;
-    NativeBridge.log("payment_grammarHandler - no reco result.");
-  }
+        var interpretation = result[0].interpretation;
+        var action = interpretation.SLOTS.action;
+        var date1 = "";
+        var amount = "";
+        var source = "";
+        var destination = "";
 
-  NativeBridge.log("payment_grammarHandler - payment_reco_errors: " + payment_reco_errors);
-  if (payment_reco_errors > 0) {
-    NativeBridge.setGrammar(payment_grammar(), null, payment_grammarHandler);
-  }
+        if (action == 'pay') {
+            amount = interpretation.SLOTS.amount;
+            source = interpretation.SLOTS.source;
+            destination = interpretation.SLOTS.destination;
+            date1 = interpretation.SLOTS.date;
+
+            if (amount == "none" && date == "none" && source == "none" && destination == "none") {
+                $.mobile.changePage("#confirm");
+            }
+            else {
+                if (date1 != "none") {
+                    //convert the date string to friendly format
+                    var datearr = date1.split('/');
+                    // TODO still need to process relative date (i.e. tomorrow)
+                    // skip for now
+                    if (datearr.length > 1) {
+                        var month1 = month[ datearr[0] - 1]; 
+                        var dom1 =  datearr[1];
+                        var year1;
+                        if (datearr.length > 2) {
+                            year1 = datearr[2];
+                        }
+                        else {
+                            var currdate = new Date();
+                            year1 = currdate.getFullYear();
+                        }
+                        $('#pmtdate').val(month1 + " " + dom1 + ", " + year1);
+                        AccountData.account.updateEstDate();
+                    }
+                }
+                if (source != "none") {
+                    // set the new active source account
+                    // and then refresh the list
+                    AccountData.account.set_active_src_number(source);
+                    AccountData.account.refresh_src_dropdown('list-acctfrom');
+                }
+                if (destination != "none") {
+                    //_active_cc_number = destination
+                    // set the new active dest account
+                    // and then refresh the list
+                    AccountData.account.set_active_cc_number(destination);
+                    AccountData.account.refresh_cc_dropdown('last-4-digits-payment');
+                }
+                //handle the actual dollar amount last so it can overwrite any changes
+                // made by the dropdown refreshes
+                amount = interpretation.SLOTS.amount;
+                if (amount == "current_balance") {
+                    amount = AccountData.account.get_current_balance();
+                //   $('#pmtamount').val(AccountData.account.get_current_balance());
+                }
+                else if (amount == "minimum_due") {
+                    amount = AccountData.account.get_minimum_payment();
+                //    $('#pmtamount').val(AccountData.account.get_minimum_payment());
+                }
+                else {
+//                    $('#pmtamount').val(amount);
+                }
+                $('#pmtamount').val(CurrencyFormatted(amount));
+                
+            }
+        }
+/*
+        else if (action == 'changesource') {
+            if (source == 'checking') {
+                setAcct(0, FROM_TYPE);
+            } else if (source == 'savings') {
+                setAcct(1, FROM_TYPE);
+            }
+        }
+        else if (action == 'changedestination') {
+            if (destination == 'platinum') {
+                setAcct(0, TO_TYPE);
+            } else if (destination == 'gold') {
+                setAcct(1, TO_TYPE);
+            } else if (destination == 'rewards') {
+                setAcct(2, TO_TYPE);
+            }
+        }
+*/
+        else if (action == 'addsource') {
+            $.mobile.changePage("#acct_add");
+        }
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -271,63 +279,6 @@ function acctfrom_beforehide() {
 }
 
 function acctfrom_grammarHandler(result) {
-  if (result != null && result.length > 0) {
-    var interp = result[0].interpretation;
-    var action = interp.action.toLowerCase();
-    NativeBridge.log("mainmenu_grammarHandler - reco result: " + action);
-
-    if (action == "recent transactions") {        
-      mainmenu_reco_errors = 0;
-      $.mobile.changePage($("#recent-transactions"));
-
-    } else if (action == "filter") {
-      NativeBridge.log("mainmenu_grammarHandler - filter" +
-                       ", field: " + interp.field + 
-                       ", comparison: " + interp.comparison +
-                       ", value: " + interp.value);
-
-      var field = interp.field.toLowerCase();
-
-      if (field == "date") {
-        var date = new Date(parseFloat(interp.value));
-        NativeBridge.log("mainmenu_grammarHandler - date: " + date.toLocaleString());
-        TransactionList.filter_by_date(parseFloat(interp.value), interp.comparison.toLowerCase());
-
-      } else if (field == "merchant") {
-        TransactionList.filter_by_merchant(interp.value);
-
-      } else if (field == "amount") {
-        TransactionList.filter_by_amount(interp.value, interp.comparison.toLowerCase());
-      }
-
-      mainmenu_reco_errors = 0;
-      $.mobile.changePage($("#recent-transactions"));
-
-    } else if (action == "payment" ||
-               action == "atm" ||
-               action == "rewards" ||
-               action == "contact" ||
-               action == "report missing") {
-      NativeBridge.log("mainmenu_grammarHandler - not implemented");
-      mainmenu_reco_errors++;
-
-    } else if (action == "chat") {
-      mainmenu_reco_errors = 0;
-      $.mobile.changePage($("#chat"));
-
-    } else {
-      mainmenu_reco_errors++;
-      NativeBridge.log("mainmenu_grammarHandler - unhandled:" + action + ".");
-    }
-  } else {
-    mainmenu_reco_errors++;
-    NativeBridge.log("mainmenu_grammarHandler - no reco result.");
-  }
-
-  NativeBridge.log("mainmenu_grammarHandler - mainmenu_reco_errors: " + mainmenu_reco_errors);
-  if (mainmenu_reco_errors > 0) {
-    NativeBridge.setGrammar(mainmenu_grammar(), null, mainmenu_grammarHandler);
-  }
 }
 
 //-----------------------------------------------------------------------------
@@ -342,6 +293,7 @@ function acctadd_grammar() {
 }
 
 function acctadd_beforeshow() {
+    NativeBridge.setMessage(null);
     AccountData.account.initDropdown('last-4-digits-acctadd', true, function(dropdown, data) {
             // Callback sets up onchange handler for dropdown
             dropdown.on('change', function () {
@@ -355,10 +307,9 @@ function acctadd_beforeshow() {
 
 function acctadd_show() {
   acctadd_reco_errors = 0;
-  NativeBridge.setMessage("How can I help you?");
   NativeBridge.setGrammar(acctadd_grammar(), null, acctadd_grammarHandler);
   if (!acctadd_prompted) {
-    NativeBridge.playAudio("audio/RT_Menu_01.wav");
+//    NativeBridge.playAudio("audio/RT_Menu_01.wav");
     acctadd_prompted = true;
   }
 }
@@ -368,6 +319,28 @@ function acctadd_beforehide() {
 }
 
 function acctadd_grammarHandler(result) {
+    if (result == null || result.length == 0) {
+        NativeBridge.playAudio("audio/sorry.wav");
+        NativeBridge.setMessage("What?");
+        NativeBridge.setGrammar("grammars/add_account.grxml", null, addacct_grammarHandler);
+    } else {
+        var interpretation = result[0].interpretation;
+        var action = interpretation.SLOTS.action;
+        var number = "";
+        if (action == 'submit') {
+            add_acct();
+        } else if (action == "addroutingnumber") {
+            number = interpretation.SLOTS.number;
+            // TODO -  should be setting withing Account obj 
+            $("#newacctrouting").val(number);
+            NativeBridge.setGrammar("grammars/add_account.grxml", null, addacct_grammarHandler);
+        } else if (action == "addaccountnumber") {
+            number = interpretation.SLOTS.number;
+            // TODO -  should be setting withing Account obj
+            $("#newacctnumber").val(number);
+            NativeBridge.setGrammar("grammars/add_account.grxml", null, addacct_grammarHandler);
+        }
+    }
 }
 
 function add_acct() {

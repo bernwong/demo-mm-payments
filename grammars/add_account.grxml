@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!--
+****************************************************************
+** Copyright (c) Microsoft Corporation.  All rights reserved. **
+****************************************************************
+-->
+
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" root= "ROOT" tag-format="semantics/1.0">
+
+
+<rule id="ROOT">
+    <tag> out.SLOTS = {}; out.SLOTS.number = "";</tag>
+    <one-of>
+      <item>
+        account number is
+        <tag>out.SLOTS.action = "addaccountnumber";</tag> 
+        <item repeat="10">
+           <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/digit.grxml" /> <tag> out.SLOTS.number += rules.latest()._value </tag>
+        </item>
+      </item>
+      <item>
+        routing number is
+        <tag>out.SLOTS.action = "addroutingnumber";</tag> 
+        <item repeat="9">
+           <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/digit.grxml" /> <tag> out.SLOTS.number += rules.latest()._value </tag>
+        </item>
+      </item>
+      <item>
+        submit
+        <tag>out.SLOTS.action = "submit";</tag>
+      </item>
+      <item>
+        add account 
+        <tag>out.SLOTS.action = "submit";</tag>
+      </item>
+    </one-of>
+</rule>
+</grammar>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" root= "payment_src" tag-format="semantics/1.0">
+
+<rule id="payment_src">
+  <one-of>
+     <item>
+       <one-of>
+         <item>
+           checking 
+         </item>
+         <item>
+           checking account 
+         </item>
+       </one-of>
+       <tag>out = "9999928541";</tag>
+     </item>
+     <item>
+       <one-of>
+         <item>
+           savings
+         </item>
+         <item>
+           savings account 
+         </item>
+       </one-of>
+       <tag>out = "9999928740";</tag>
+     </item>
+  </one-of>
+</rule>
+</grammar>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" root= "payment_dest" tag-format="semantics/1.0">
+
+<rule id="payment_dest">
+  <one-of>
+     <item>
+       <one-of>
+         <item>
+           platinum 
+         </item>
+         <item>
+           platinum card
+         </item>
+         <item>
+           platinum mastercard
+         </item>
+       </one-of>
+       <tag>out = "9999888829481637";</tag>
+     </item>
+     <item>
+       <one-of>
+         <item>
+           gold 
+         </item>
+         <item>
+           gold card
+         </item>
+       </one-of>
+       <tag>out = "9999888826759163";</tag>
+     </item>
+  </one-of>
+</rule>
+</grammar>

@@ -59,9 +59,10 @@ AccountData.account = (function($) {
     };
 
     var select_acct_option = function(acct_name, acct_number, selected) {
-        //var extra  = $.inArray(cc_number, [selected, _active_cc_number]) < 0 ?
-        //             '' : ' selected="selected"';
-        var option = '<option value="' + acct_number + '"><div>' + acct_name + " " + '</div></option>'; 
+        var extra  = $.inArray(acct_number, [selected, _active_src_number]) < 0 ?
+                     '' : ' selected="selected"';
+        var option = '<option value="' + acct_number + '"' + extra + 
+                     '>' + acct_name + '</option>'; 
             return $(option);
     };
 
@@ -71,7 +72,6 @@ AccountData.account = (function($) {
         var div = $('#' + div);
         div.empty();
         var selected_cc_number = AccountData.account.active_cc_number();
-
         // Add the CC icon
         $(mc_img).appendTo(div);
         // Build the CC dropdown list
@@ -85,6 +85,7 @@ AccountData.account = (function($) {
         dropdown.on('change', function() {
             _active_cc_number = dropdown[0].value;
             populate_payment_due();
+            listPaymentOptions("list-payment-amount", false);
         });
         // Call the change handler to update the active CC number
         dropdown.change();
@@ -96,12 +97,12 @@ AccountData.account = (function($) {
     var listAccts = function(div, disabled) {
         var div = $('#' + div);
         div.empty();
-
-        //var selected_cc_number = AccountData.account.active_cc_number();
+        
+        var selected_src_number = AccountData.account.active_src_number();
         // Build the list
         var list = select_acct_element().appendTo(div);
         $(data.src_accounts).each( function(i, acct) {
-            select_acct_option(acct.name, acct.number).appendTo(list);
+            select_acct_option(acct.name, acct.number, selected_src_number).appendTo(list);
         });
         $('<option value="add">Add New Account</option>').appendTo(list);
         $('<option>Select Account</option>').appendTo(list);
@@ -125,6 +126,50 @@ AccountData.account = (function($) {
         return list; 
     };
 
+    var listPaymentOptions = function(div, disabled) {
+        var div = $('#' + div);
+        div.empty();
+        //get the current balance and minumum payment values
+        var acct = dest_account();
+        var curr_balance = acct.balance;
+        var min_pmt = acct.minpmt;
+        //Only continue if min_pmt has a value
+        if (min_pmt == null) {
+            // set the current balance and don't create a a select option
+            $('#pmtoptlabel').html('CURRENT<br />BALANCE');
+            $('#minimum-payment-value').html('$' + curr_balance);
+            $('#pmtamount').val(curr_balance);
+            return;
+        }
+        var seltext = '<select name="pmt-choice" id="pmt-choice"' +
+                      ' data-native-menu="false"></select>'; 
+        var list = $(seltext).appendTo(div);
+        $('<option value="' + min_pmt + '">Minimum Payment: $' + min_pmt + '</option>').appendTo(list); 
+        $('<option value="' + curr_balance + '">Current balance: $' + curr_balance + '</option>').appendTo(list);
+        list.selectmenu();
+
+        //now hide the list by setting the parent div to hide
+        $('#list-payment-amount').hide(); 
+
+        list.on('change', function() {
+            var acct = dest_account();
+            if (list[0].value == acct.balance) {
+                $('#pmtoptlabel').html('CURRENT<br />BALANCE');
+                $('#minimum-payment-value').html('$' + curr_balance);
+                $('#pmtamount').val(curr_balance);
+            }
+            else {
+                $('#pmtoptlabel').html('MINIMUM<br />PAYMENT');
+                $('#minimum-payment-value').html('$' + min_pmt);
+                $('#pmtamount').val(min_pmt);
+            }
+        });
+        // Call the change handler to update the active src number
+        list.change();
+        return list;
+    }
+
+
     var src_account = function() {
         return $.grep(data.src_accounts, function(acct) {
             return acct.number === _active_src_number;
@@ -142,8 +187,7 @@ AccountData.account = (function($) {
         var acct = dest_account();
         var date = AccountData.utils.date_due(acct.datedue);
         var name = acct.name;
-        $('#minimum-payment-value').html('$' + acct.balance);
-        $('#minimum-payment-value-acctfrom').html('$' + acct.balance);
+     //   $('#minimum-payment-value').html('$' + acct.balance);
         var duedate = $('#payment-due-value').html(date);
         $('#payment-due-value-acctfrom').html(date);
         $('#acctname').html(name);
@@ -257,9 +301,7 @@ AccountData.account = (function($) {
         }
         cItems[numItems] = {"name": acctname, "routing": acctrouting, "number": acctnum};
         _active_src_number = acctnum;
-        alert(acctnum);
         populate_src_acct_info();
-        alert("Pop");
         return 0; 
     }
 
@@ -302,6 +344,23 @@ AccountData.account = (function($) {
                 }
             } 
         },
+        initPmtOptsDropdown: function(div, disabled, callback) {
+            var url = makeAccountUrl();
+            if (data === null) {
+                $.getJSON(url, function(results) {
+                    data = results;
+                    var list = listPaymentOptions(div, disabled);
+                    if (typeof callback === 'function') {
+                        callback(list, data);
+                    }
+                });
+            } else {
+                var list = listPaymentOptions(div, disabled);
+                if (typeof callback === 'function') {
+                    callback(list, data);
+                }
+            } 
+        }, 
         setDefaultPaymentDates: function() {
                             var date = new Date();
                             var month_name = month[date.getMonth()];
@@ -320,8 +379,33 @@ AccountData.account = (function($) {
         active_acct_number: function() {
             return _active_acct_number;
         },
+        set_active_cc_number: function(newval) {
+            _active_cc_number = newval;
+        },
         active_cc_number: function() {
             return _active_cc_number;
+        },
+        refresh_cc_dropdown: function(div) {
+            return listCards(div,false);
+        },
+        set_active_src_number: function(newval) {
+            _active_src_number = newval;
+        },
+        active_src_number: function() {
+            return _active_src_number;
+        },
+        refresh_src_dropdown: function (div) {
+            return listAccts(div,false);
+        },
+        get_current_balance: function() {
+            return dest_account().balance;
+        },
+        get_minimum_payment: function () {
+            if (dest_account().minpmt  != null) {
+                return dest_account().minpmt;
+            } else {
+                return 20;
+            }
         },
         populate_payment_due: populate_payment_due
     };

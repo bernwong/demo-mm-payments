@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" root= "ROOT" tag-format="semantics/1.0">
+
+<rule id="ROOT">
+  <tag>out.SLOTS={};</tag>         
+  <item repeat="0-1">
+    i 
+    <one-of>
+      <item>want to</item>
+      <item>wanna</item>
+    </one-of>
+  </item>
+  <one-of>
+    <item>
+      pay now
+      <tag> 
+	      out.SLOTS.action = "pay"; 
+		  out.SLOTS.amount = "none";
+		  out.SLOTS.source = "none";
+		  out.SLOTS.date = "none";
+	   </tag>
+    </item>
+    <item>
+      pay 
+	  <tag> out.SLOTS.action = "pay"; </tag>
+	  <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_amount.grxml"/>
+      <tag> 
+          out.SLOTS.amount = rules.latest(); 
+      </tag>
+      <one-of>
+         <item>
+           <one-of>
+             <item>
+               on <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/date.grxml"/>
+               <tag> 
+                   out.SLOTS.date = rules.latest(); 
+				   out.SLOTS.source = "none";
+               </tag>
+             </item>
+             <item>
+               <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/reldate.grxml"/>
+               <tag>
+                   out.SLOTS.date = rules.latest(); 
+				   out.SLOTS.source = "none";
+               </tag>
+             </item>
+           </one-of>
+         </item>
+         <item>
+           from <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_src.grxml"/>
+           <tag> 
+               out.SLOTS.source = rules.latest(); 
+			   out.SLOTS.date = "none";
+           </tag>
+         </item>
+       </one-of>
+    </item>
+    <item>
+      change pay from account to <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_src.grxml"/>
+      <tag> 
+          out.SLOTS.action = "changesource"; 
+          out.SLOTS.source = rules.latest();
+      </tag> 
+    </item>
+    <item>
+      change pay to account to <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_dest.grxml"/>
+      <tag> 
+          out.SLOTS.action = "changedestination";
+          out.SLOTS.destination = rules.latest(); 
+      </tag>
+    </item>
+    <item>
+      add new account 
+      <tag> 
+          out.SLOTS.action = "addsource"; 
+      </tag>
+    </item>
+
+  </one-of> 
+</rule>
+
+</grammar>

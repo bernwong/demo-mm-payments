@@ -37,13 +37,17 @@
 }
 
 .check-image {
-    width: 300px;
+    width: 280px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    align: center;
 }
 
 .page-heading {
     text-align: center;
     font-size: 14pt;
     color: white;
+    line-height: 0;
 }
 
 
@@ -132,8 +136,15 @@ img.main-menu-item {
 
 /* Make a payment */
 
+.pmtview {
+    background: url("../img/Payments-MakePayment-FormBackground-CapOne.png") no-repeat;
+    margin: -2px 0 0 3px;
+    padding: 0;
+
+}
+
 .pmtacctlabel {
-    font-size: 6pt; 
+    font-size: 9pt; 
     font-weight: bold;
     font-family: Arial;
     color: #0a4c83;
@@ -141,7 +152,7 @@ img.main-menu-item {
 }
 
 .pmtacctdata {
-    font-size: 6pt; 
+    font-size: 9pt; 
     font-weight: normal;
     font-family: Arial;
     color: #656565;
@@ -149,7 +160,7 @@ img.main-menu-item {
 }
 
 .availbalancelabel {
-    font-size: 6pt; 
+    font-size: 9pt; 
     font-weight: bold;
     font-family: Arial;
     color: #656565;
@@ -157,7 +168,7 @@ img.main-menu-item {
 }
 
 .availbalancedata {
-    font-size: 6pt; 
+    font-size: 9pt; 
     font-weight: regular;
     font-family: Arial;
     color: #656565;
@@ -165,7 +176,7 @@ img.main-menu-item {
 }
 
 .amtlabel {
-    font-size: 6pt;
+    font-size: 9pt;
     font-weight: bold;
     font-family: Arial;
     color: #0a4c83;
@@ -173,10 +184,14 @@ img.main-menu-item {
 
 
 .amtdata {
-    font-size: 8pt;
+    font-size: 9pt;
     font-weight: regular; 
     font-family: Arial;
     color: #353535;
+}
+
+.estpostdate {
+    background-color: #DBE9F4;
 }
 
 .confirmlabel {

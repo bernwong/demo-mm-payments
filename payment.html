@@ -91,15 +91,25 @@
     </div>
     <div class="card-bits payment-due-notice">
       <div class="ui-grid-a">
-         <div class="ui-block-a right-border">
-
-           <div class="payment-due-label">CURRENT<br />BALANCE</div>
-           <div id="minimum-payment-value" class="payment-value"></div>
-<!--
+          <div class="ui-block-a right-border">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>
+            <a onclick="$('#pmt-choice').selectmenu('open');">
+                <div class="payment-due-label"><span id="pmtoptlabel"></span></div>
+                <div><span id="minimum-payment-value" class="payment-value" style="color: black"></span></div>
+            </td>
+            <td align="center" width="25">
+                <a onclick="$('#pmt-choice').selectmenu('open');"><img valign="bottom" height="10" src="img/Payments-MakePayment-ChangeAccount(DownArrow)-CapOne.png"/></a>
+            </td>
+           </tr>
+           </table>
+            </a>
+           <!--
            <div class="payment-due-label">CURRENT<br />BALANCE</div>
            <div id="current-payment-value" class="payment-value"></div>
            -->
-        </div>
+         </div>
          <div class="ui-block-b left-border">
            <div class="payment-due-label">PAYMENT<br />DUE</div>
            <div id="payment-due-value" class="payment-value"></div>
@@ -109,7 +119,7 @@
   </div>
 
   <div id="paymentoptions" role="content">
-      <div data-role="content" style="line-height: 3em">&nbsp;</div>
+      <div data-role="content" style="line-height: 2em">&nbsp;</div>
       <div class="page-heading">Make a Payment</div>
       <div data-role="content">
 <!--
@@ -128,16 +138,33 @@
               </li>
               <li>
              <!--  <label for="pmtamount" class="ui-hidden-accessible"/> -->
-          <div class="" id="list-acctfrom"></div> 
-          <label for="pmtamount"><span class="amtlabel">Amount</span></label>
-          <input type="text" name="pmtamount" id="pmtamount" class="amtdata" value=""/>
-          <label for="pmtdate"><span class="amtlabel">Payment Date</span></label>
-<!--
-          <input name="pmtdate" id="pmtdate" type="text">
-          -->
+       
 
-<input name="pmtdate" id="pmtdate" type="date" class="amtdata" data-role="datebox" data-options='{"mode": "calbox", "dateFormat":"MM/DD/YYYY"}' pickPageTheme="c" pickPageButtonTheme="c" onchange="updateEstDate()"/>
+                 <div class="ui-grid-a">
+                     <div class="ui-block-a">
+                         <label for="pmtamount"><span class="amtlabel">Amount</span></label><br/>
+                         <div> 
+                             <input type="text" name="pmtamount" id="pmtamount" class="amtdata" size="15" data-role="none" value=""/>
+                         </div> 
+                     </div>
+                     <div class="ui-block-b">
+                         <label for="pmtdate"><span class="amtlabel">Payment Date</span></label>
+                         <div>
+                             <input type="text" name="pmtdate" id="pmtdate" class="amtdata" size="12"  data-role="none" value=""/>
+                             <a onclick="$('#pmtdatehidden').datebox('open');
+                                 "><img width="14" src="img/Payments-MakePayment-Calendar-CapOne.png"/></a>
+                         </div>
+                     </div>
+                 </div>
 
+                 <!-- This is a placeholder for the select element of payment account options
+                      It is kept hidden since we want to be able to see a more formatted
+                      verrsion of the selected option.  The select element can only display
+                      in a single line and what you select is the only thing you see.
+                      For payment accounts, we want to see additional info like avail balance
+                 -->
+                 <div class="" id="list-acctfrom"></div> 
+                 <div class="" id="list-payment-amount"></div>
               </li> 
           <!-- 
           <label for="pmtdate">Payment Date</label>
@@ -147,14 +174,21 @@
        <input name="mydate" id="mydate" type="date" data-role="datebox"
           data-options='{"mode": "calbox"}'>
           -->    
-              <li>
-          <label for="estdate">Estimated Post Date:</label>
-          <span id="estdate">estdate</span>
+               <li class="estpostdate" style="background: #bdedff; border-top:0"> 
+               <label for="estdate"><span class="amtlabel">Estimated Post Date:</span></label>
+               <span id="estdate" class="amtdata"></span>
               </li>
           </ul>
           <a href="#confirm"><img class="submit-button" src="img/Payments-MakePayment-Submit-CapOne.png"/></a>
       </div>
   </div>
+  <div id="datebox">
+<!--
+      <input name="pmtdatehidden" id="pmtdatehidden" type="date" class="amtdata" data-role="datebox"  data-options='{"mode": "calbox", "dateFormat":"%B %d, %Y"}' pickPageTheme="c" pickPageButtonTheme="c" onchange="updateEstDate()"/>
+      -->
+      <input name="pmtdatehidden" id="pmtdatehidden" type="date" class="amtdata" data-role="datebox" data-options='{"mode": "calbox", "dateFormat":"%B %d, %Y", "highDates":["2012-05-13", "2012-05-14"], "highDatesAlt":["2012-05-24"]}' pickPageTheme="c" pickPageButtonTheme="c" onchange="updateEstDate()"/>
+
+  </div> 
 </div>
 <!--
 <div id="acct_from_select" data-role="page"  style="background-color: transparent;" >
@@ -239,13 +273,21 @@
       <div data-role="content">
           <ul data-role="listview" data-inset="true" >
               <li>
-          <label for="newacctname"/>
-          <input type="text" name="newacctname" id="newacctname" value="NickName"/>
-          <label for="newacctrouting"/>
-          <input type="text" name="newacctrouting" id="newacctrouting" value="Routing #"/>
-          <label for="newacctnumber"/>
-          <input type="text" name="newacctnumber" id="newacctnumber" value="Account #"/>
-          <img class="check-image" src="img/Payments-NewAccount-CheckImage-CapOne.png"/>
+              <div>
+                  <label for="newacctname"/>
+                   <input type="text" name="newacctname" id="newacctname" value="NickName"/>
+               </div>
+               <div>
+                   <label for="newacctrouting"/>
+                   <input type="text" name="newacctrouting" id="newacctrouting" value="Routing #"/>
+               </div>
+               <div>
+                   <label for="newacctnumber"/>
+                   <input type="text" name="newacctnumber" id="newacctnumber" value="Account #"/>
+               </div> 
+               <div class="check-image">
+                   <img width="280" src="img/Payments-NewAccount-CheckImage-CapOne.png"/>
+               </div>
               </li>
           </ul>
           <a onclick="add_acct()"><img class="submit-button" src="img/Payments-NewAccount-AddAccount-CapOne.png"/></a>

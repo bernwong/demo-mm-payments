@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" root= "payment_sources" tag-format="semantics/1.0">
+
+<rule id="payment_sources">
+  <one-of>
+     <item>
+       <one-of>
+         <item>
+           yes
+         </item>
+         <item>
+           make a payment
+         </item>
+       </one-of> 
+       <tag>out = "payment";</tag>
+     </item>
+  </one-of>
+</rule>
+</grammar>
