@@ -21,10 +21,16 @@
      <item>
        <one-of>
          <item>
-           gold 
+           rewards
          </item>
          <item>
-           gold card
+           rewards card
+         </item>
+         <item>
+           cash rewards 
+         </item>
+         <item>
+           cash rewards card
          </item>
        </one-of>
        <tag>out = "9999888826759163";</tag>

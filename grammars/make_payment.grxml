@@ -91,7 +91,22 @@
             out.SLOTS.action = "help";
         </tag>
     </item>
-  </one-of> 
+
+    <item>
+        <one-of>
+            <item>
+                back
+            </item>
+            <item>
+                go back
+            </item>
+        </one-of>
+        <tag>
+            out.SLOTS.action = "back";
+        </tag>
+    </item>
+
+</one-of> 
 </rule>
 
 </grammar>

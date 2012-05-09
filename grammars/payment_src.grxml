@@ -7,25 +7,39 @@
      <item>
        <one-of>
          <item>
-           checking 
+           wells checking 
          </item>
          <item>
-           checking account 
+           wells checking account 
          </item>
        </one-of>
        <tag>out = "9999928541";</tag>
      </item>
+
      <item>
        <one-of>
          <item>
-           savings
+           B of A savings 
          </item>
          <item>
-           savings account 
+           B of A savings account 
          </item>
        </one-of>
        <tag>out = "9999928740";</tag>
      </item>
-  </one-of>
+
+     <item>
+       <one-of>
+         <item>
+           chase checking 
+         </item>
+         <item>
+           chase checking account 
+         </item>
+       </one-of>
+       <tag>out = "9993452331";</tag>
+   </item>
+
+ </one-of>
 </rule>
 </grammar>

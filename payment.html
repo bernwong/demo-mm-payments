@@ -40,11 +40,28 @@
   </script>
 
   <div data-role="header" data-position="fixed" data-theme="b">
-    <div class="logo"></div>
-    <div data-role="content" class="card-bits" data-theme="d">
-      <span class="card-type" data-role="content" id="acctname">Personal Credit Card</span>
-      <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-main"></div></div>
-    </div>
+      <div class="logo"></div>
+      <div data-role="content" class="card-bits" data-theme="d">
+          <span class="card-type" data-role="content" id="acctname-mainmenu">Personal Credit Card</span>
+          <div class="second-left-border">
+              <div class="card-info left-border" id="last-4-digits-main">
+              </div>
+          </div>
+      </div>
+      
+      <div class="card-bits payment-due-notice">
+          <div class="ui-grid-a">
+              <div class="ui-block-a right-border">
+                  <div class="payment-due-label"><span id="pmtoptlabel-mainmenu"></span></div>
+                  <div><span id="minimum-payment-value-mainmenu" class="payment-value" style="color: black"></span></div>
+              </div>
+              <div class="ui-block-b left-border">
+                  <div class="payment-due-label">PAYMENT<br />DUE</div>
+                  <div><span id="payment-due-value-mainmenu" class="payment-value"></span></div>
+              </div>
+          </div>
+      </div>
+     
   </div>
 
   <!-- Menu-tastic Main -->
@@ -84,7 +101,13 @@
   </script>
 
   <div data-role="header" data-position="fixed" data-theme="b"> 
-    <div class="logo"></div>
+      <div class="logo">
+          <table width="100%" height="100%" border="0">
+              <tr>
+                  <td align="left" valign="middle"><a href="#main_menu" data-rel="back" data-role="none"><img class="header-button"  src="img/back.png"></a></td>
+              </tr>
+          </table>
+      </div>
     <div data-role="content" class="card-bits" data-theme="d">
       <span id="acctname1" class="card-type" data-role="content">Personal Credit Card</span>
       <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-payment"></div></div>
@@ -138,9 +161,10 @@
               <li><a href="#acct_from"><span class="ui-block-b detail-type">Pay From:</span>&nbsp;&nbsp;<span class="" id="from_acct_nickname">Acct nickname</span>, <span class="" id="from_acct_num">last 4 digits of acct</span></a></li>
           </ul>
           -->
+
           <ul data-role="listview" data-inset="true" data-corners="false">
               <li data-icon="arrow-d">
-              <a onclick="$('#acct-choice').selectmenu('open');"><div id="src-acct-info"></div></a>
+                  <a onclick="$('#acct-choice').selectmenu('open');"><div id="src-acct-info"></div></a>
               </li>
               <li>
              <!--  <label for="pmtamount" class="ui-hidden-accessible"/> -->
@@ -150,15 +174,15 @@
                      <div class="ui-block-a">
                          <label for="pmtamount"><span class="amtlabel">Amount</span></label><br/>
                          <div> 
-                             <input type="text" name="pmtamount" id="pmtamount" class="amtdata" size="15" data-role="none" value=""/>
+                             <input type="number" name="pmtamount" id="pmtamount" class="amtdata" size="13" data-role="none" value=""/>
                          </div> 
                      </div>
                      <div class="ui-block-b">
                          <label for="pmtdate"><span class="amtlabel">Payment Date</span></label>
                          <div>
-                             <input type="text" name="pmtdate" id="pmtdate" class="amtdata" size="12"  data-role="none" value=""/>
-                             <a onclick="$('#pmtdatehidden').datebox('open');
-                                 "><img width="14" src="img/Payments-MakePayment-Calendar-CapOne.png"/></a>
+                             <input onclick="$('#pmtdatehidden').datebox('open');" readonly="readonly" type="text" name="pmtdate" id="pmtdate" class="amtdata" size="11"  data-role="none" value=""/> 
+                             <a onclick="$('#pmtdatehidden').datebox('open');">
+                                 <img width="14" src="img/Payments-MakePayment-Calendar-CapOne.png"/></a>
                          </div>
                      </div>
                  </div>
@@ -180,7 +204,10 @@
        <input name="mydate" id="mydate" type="date" data-role="datebox"
           data-options='{"mode": "calbox"}'>
           -->    
-               <li class="estpostdate" style="background: #bdedff; border-top:0"> 
+    <!-- 
+          <li class="estpostdate" style="background: #bdedff; border-top:0"> 
+          -->
+              <li id="estdatesection" class="estpostdate"> 
                <label for="estdate"><span class="amtlabel">Estimated Post Date:</span></label>
                <span id="estdate" class="amtdata"></span>
               </li>
@@ -281,15 +308,15 @@
               <li>
               <div>
                   <label for="newacctname"/>
-                   <input type="text" name="newacctname" id="newacctname" value="NickName"/>
+                      <input onclick='NativeBridge.setMessage(null); this.value="";' onblur='if (this.value == "") {this.value="NickName"};' type="text" name="newacctname" id="newacctname" value="NickName"/>
                </div>
                <div>
                    <label for="newacctrouting"/>
-                   <input type="text" name="newacctrouting" id="newacctrouting" value="Routing #"/>
+                       <input onclick='NativeBridge.setMessage(null); this.value="";' onblur='if (this.value == "") {this.value="Routing #"};' type="text" name="newacctrouting" id="newacctrouting" value="Routing #"/>
                </div>
                <div>
                    <label for="newacctnumber"/>
-                   <input type="text" name="newacctnumber" id="newacctnumber" value="Account #"/>
+                       <input onclick='NativeBridge.setMessage(null); this.value="";' onblur='if (this.value == "") {this.value="Account #"};' type="text" name="newacctnumber" id="newacctnumber" value="Account #"/>
                </div> 
                <div class="check-image">
                    <img width="280" src="img/Payments-NewAccount-CheckImage-CapOne.png"/>
@@ -297,6 +324,7 @@
               </li>
           </ul>
           <a onclick="add_acct()"><img class="submit-button" src="img/Payments-NewAccount-AddAccount-CapOne.png"/></a>
+          <br/><br/><br/>
       </div>
   </div>
 </div>
@@ -310,7 +338,7 @@
         <div class="logo">
             <table width="100%" height="100%" border="0">
                 <tr>
-                    <td align="left" valign="middle"><a href="#acct_from" data-rel="back" data-role="none"><img class="header-button"  src="img/back.png"></a></td>
+                    <td align="left" valign="middle"><a href="#payment" data-rel="back" data-role="none"><img class="header-button"  src="img/back.png"></a></td>
                 </tr>
             </table>
         </div>

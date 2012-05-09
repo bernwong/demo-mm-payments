@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  div { background: white; }
+  .red { background: red; }
+  .red.green { background: green; }
+  </style>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+  
+ <div>This div should be white</div>
+ <div id="hey" class="red">This div will be green because it now has the "green" and "red" classes.
+   It would be red if the addClass function failed.</div>
+ <div>This div should be white</div>
+ <p>There are zero green divs</p>
+
+ <a onclick='$("#hey").removeClass("green");'> TEST</a>
+ <a onclick='$("#hey").addClass("green");'>TEST 2</a>
+<script>
+  $("div").addClass(function(index, currentClass) {
+    var addedClass;
+
+    if ( currentClass === "red" ) {
+      addedClass = "green";
+      $("p").text("There is one green div");
+    }
+  
+    return addedClass;
+  });
+</script>
+          <a onclick='document.getElementById("testselect").size = 5;'><div>TEST</div></a>
+          <script>
+              $('select').hover(function(){
+                  this.size = this.options.length;
+                  }, function(){
+                  this.size = 1;
+              })
+          </script>
+<br/>
+<br/>
+          <select  size="4" data-native-menu="true"  id="testselect">
+              <option value="a1">a1</option>
+              <option value="a2">a2</option>
+              <option value="a3">a3</option>
+              <option value="a4">a4</option>
+              <option value="a5">a5</option>
+          </select>
+
+</body>
+</html>

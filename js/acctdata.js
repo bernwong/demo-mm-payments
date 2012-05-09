@@ -111,7 +111,6 @@ AccountData.account = (function($) {
         //  This allows us to create another area to display more information 
         //  about the selection
         $('#list-acctfrom').hide();
-
         // Setup the default change handler to record active src number
         list.on('change', function() {
             if (list[0].value == "add") {
@@ -187,15 +186,23 @@ AccountData.account = (function($) {
         var acct = dest_account();
         var date = AccountData.utils.date_due(acct.datedue);
         var name = capitaliseFirstLetter(acct.name);
-     //   $('#minimum-payment-value').html('$' + acct.balance);
-        var duedate = $('#payment-due-value').html(date);
-        //set the due date box in the datebox picker widget
+        
+        // set values in main menu
+        $('#acctname-mainmenu').html(name);
+        $('#payment-due-value-mainmenu').html(date);
+        $('#pmtoptlabel-mainmenu').html('CURRENT<br/>BALANCE');
+        $('#minimum-payment-value-mainmenu').html('$' + acct.balance);
+       
+        // set values in payment
+        $('#payment-due-value').html(date);
         var datebox_date = AccountData.utils.date_due_datebox(acct.datedue);
         $('#pmtdatehidden').data('datebox').options.highDates = [datebox_date];
-        $('#payment-due-value-acctfrom').html(date);
-        $('#acctname').html(name);
         $('#acctname1').html(name);
+        
+        // set value in acctadd 
         $('#acctname-acctadd').html(name);
+      
+        // set value in confirm
         $('#acctname-confirm').html(name);
         set_payment_amount();
         return acct;
@@ -210,6 +217,29 @@ AccountData.account = (function($) {
         year = date.getFullYear();
         day = date.getDate();
         $('#estdate').html( month_name + ' ' + day + ', ' + year );
+ 
+        // check if the estimated post date is past due date
+        // if so, then update background
+        var acct = dest_account();
+        var datedue = acct.datedue; 
+        var tstamp = 0;
+        if (datedue.match(/^-?\d+$/)) {
+            tstamp = $.now() + (parseFloat(datedue) * 24 * 60 * 60 * 1000) * -1;
+        } else {
+            tstamp = Date.parse(datedue);
+        } 
+        var datedueobj = new Date(tstamp);
+        if (date > datedueobj) {
+        //    $('#estdatesection').addClass("late");
+             $('#estdatesection').removeClass("estpostdate");
+             $('#estdatesection').addClass("estpostdatelate");
+        } 
+        else {
+        //    $('#estdatesection').removeClass("late");
+             $('#estdatesection').removeClass("estpostdatelate");
+             $('#estdatesection').addClass("estpostdate");
+        }
+
     }
     
     var populate_src_acct_info = function() {

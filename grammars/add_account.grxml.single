@@ -10,45 +10,30 @@
 
 
 <rule id="ROOT">
-  <tag>
-        out.SLOTS = {}; 
-        out.SLOTS.action = ""; 
-        out.SLOTS.acctnumber = ""; 
-        out.SLOTS.routenumber="";
-  </tag>
-  <one-of>
-       
-    <item repeat="1-2"> 
-      <one-of> 
+    <tag> out.SLOTS = {}; out.SLOTS.acctnumber = ""; out.SLOTS.routenumber="";</tag>
+    <one-of>
       <item>
-        <item repeat="0-1">and</item>
         account number is
-        <tag>out.SLOTS.action = "add";</tag> 
+        <tag>out.SLOTS.action = "addaccountnumber";</tag> 
         <item repeat="10">
            <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/digit.grxml" /> <tag> out.SLOTS.acctnumber += rules.latest()._value </tag>
         </item>
       </item>
       <item>
-        <item repeat="0-1">and</item>
         routing number is
-        <tag>out.SLOTS.action = "add";</tag> 
+        <tag>out.SLOTS.action = "addroutingnumber";</tag> 
         <item repeat="9">
            <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/digit.grxml" /> <tag> out.SLOTS.routenumber += rules.latest()._value </tag>
         </item>
-      </item> 
-      </one-of>
-    </item>
-    
-    <item>
+      </item>
+      <item>
         submit
         <tag>out.SLOTS.action = "submit";</tag>
-    </item>
-    <item>
+      </item>
+      <item>
         add account 
         <tag>out.SLOTS.action = "submit";</tag>
     </item>
-
-
     <item>
         <one-of>
             <item>
@@ -62,23 +47,6 @@
             out.SLOTS.action = "help";
         </tag>
     </item>
-
-
-    <item>
-        <one-of>
-            <item>
-                back 
-            </item>
-            <item>
-                go back 
-            </item>
-        </one-of>
-        <tag>
-            out.SLOTS.action = "back";
-        </tag>
-    </item>
-
-
   </one-of>
 </rule>
 </grammar>

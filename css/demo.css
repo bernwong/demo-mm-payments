@@ -144,7 +144,7 @@ img.main-menu-item {
 }
 
 .pmtacctlabel {
-    font-size: 9pt; 
+    font-size: 10pt; 
     font-weight: bold;
     font-family: Arial;
     color: #0a4c83;
@@ -152,7 +152,7 @@ img.main-menu-item {
 }
 
 .pmtacctdata {
-    font-size: 9pt; 
+    font-size: 10pt; 
     font-weight: normal;
     font-family: Arial;
     color: #656565;
@@ -160,7 +160,7 @@ img.main-menu-item {
 }
 
 .availbalancelabel {
-    font-size: 9pt; 
+    font-size: 10pt; 
     font-weight: bold;
     font-family: Arial;
     color: #656565;
@@ -168,7 +168,7 @@ img.main-menu-item {
 }
 
 .availbalancedata {
-    font-size: 9pt; 
+    font-size: 10pt; 
     font-weight: regular;
     font-family: Arial;
     color: #656565;
@@ -176,7 +176,7 @@ img.main-menu-item {
 }
 
 .amtlabel {
-    font-size: 9pt;
+    font-size: 10pt;
     font-weight: bold;
     font-family: Arial;
     color: #0a4c83;
@@ -184,55 +184,65 @@ img.main-menu-item {
 
 
 .amtdata {
-    font-size: 9pt;
+    font-size: 10pt;
     font-weight: regular; 
     font-family: Arial;
     color: #353535;
 }
 
 .estpostdate {
-    background-color: #DBE9F4;
+    background: #BDEDFF;
+    border-top: 0;
 }
 
+.estpostdate.late {
+    background: #FD3D3D;
+}
+
+.estpostdatelate {
+    background: #FD3D3D;
+}
+
+
 .confirmlabel {
-    font-size: 8pt;
+    font-size: 10pt;
     font-weight: bold;
     font-family: Arial;
     color: #2073ae;
     border-bottom: 1px solid #BBB;
     width: 30%;
     white-space: nowrap;
-    line-height: 3em;
+    line-height: 2em;
 }
 
 .confirmdata {
-    font-size: 8pt;
+    font-size: 10pt;
     font-weight: regular;
     font-family: Arial;
     color: #656565;
     border-bottom: 1px solid #BBB;
     white-space: nowrap;
-    line-height: 3em;
+    line-height: 2em;
 }
 
 
 .confirmlabel-noborder {
-    font-size: 8pt;
+    font-size: 10pt;
     font-weight: bold;
     font-family: Arial;
     color: #2073ae;
     width: 30%;
     white-space: nowrap;
-    line-height: 3em;
+    line-height: 2em;
 }
 
 .confirmdata-noborder {
-    font-size: 8pt;
+    font-size: 10pt;
     font-weight: regular;
     font-family: Arial;
     color: #656565;
     white-space: nowrap;
-    line-height: 3em;
+    line-height: 2em;
 }
 
 /* Recent transactions and transaction details */
