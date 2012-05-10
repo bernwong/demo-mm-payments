@@ -20,7 +20,7 @@
       {"name": "Chase checking", "routing": "999005822", "number": "9993452331"}
    ],
    "dest_accounts": [
-      {"name": "platinum", "number": "9999888829481637", "balance": "1338.93", "datedue": "-2", "minpmt": "45.00"},
-      {"name": "cash rewards", "number": "9999888826759163", "balance": "978.13", "datedue": "-5", "minpmt": "20.00"}
+      {"name": "Platinum Card", "number": "9999888829481637", "balance": "1338.93", "datedue": "-2", "minpmt": "45.00"},
+      {"name": "Cash Rewards Card", "number": "9999888826759163", "balance": "978.13", "datedue": "-5", "minpmt": "20.00"}
    ]
 }
