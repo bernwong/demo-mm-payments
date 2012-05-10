@@ -72,7 +72,7 @@ function mainmenu_grammarHandler(result) {
         NativeBridge.setGrammar(mainmenu_grammar(), null, mainmenu_grammarHandler);
     } else {
         var interpretation = result[0].interpretation;
-        NativeBridge.setMessage(interpretation);
+        NativeBridge.setMessage(null);
         if (interpretation == 'payment') {
             $.mobile.changePage("#payment");
         }
@@ -146,6 +146,8 @@ function payment_grammarHandler(result) {
         //    NativeBridge.playTTS("male", "I'm sorry, could you repeat that?");
         NativeBridge.setGrammar(payment_grammar(), null, payment_grammarHandler);
     } else {
+        NativeBridge.setMessage(null);
+        NativeBridge.setGrammar(payment_grammar(), null, payment_grammarHandler);
         var interpretation = result[0].interpretation;
         var action = interpretation.SLOTS.action;
         var date1 = "";
