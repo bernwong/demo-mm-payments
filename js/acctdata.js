@@ -233,11 +233,15 @@ AccountData.account = (function($) {
         //    $('#estdatesection').addClass("late");
              $('#estdatesection').removeClass("estpostdate");
              $('#estdatesection').addClass("estpostdatelate");
+             $('#estdatelbl').removeClass("estdatelabel");
+             $('#estdatelbl').addClass("estdatelabellate");
         } 
         else {
         //    $('#estdatesection').removeClass("late");
              $('#estdatesection').removeClass("estpostdatelate");
              $('#estdatesection').addClass("estpostdate");
+             $('#estdatelbl').removeClass("estdatelabellate");
+             $('#estdatelbl').addClass("estdatelabel");
         }
 
     }

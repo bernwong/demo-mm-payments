@@ -190,17 +190,29 @@ img.main-menu-item {
     color: #353535;
 }
 
+
+.estdatelabel {
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: Arial;
+    color: #0A4C83;
+}
+
+.estdatelabellate {
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: Arial;
+    color: #ED351C;
+}
+
 .estpostdate {
-    background: #BDEDFF;
+    background: #DDEDF8;
     border-top: 0;
 }
 
-.estpostdate.late {
-    background: #FD3D3D;
-}
-
 .estpostdatelate {
-    background: #FD3D3D;
+    background: #F6CFC3;
+    border-top: 0;
 }
 
 
