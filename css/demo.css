@@ -148,7 +148,6 @@ img.main-menu-item {
     font-weight: bold;
     font-family: Arial;
     color: #0a4c83;
-    text-align: left;
 }
 
 .pmtacctdata {
@@ -156,7 +155,6 @@ img.main-menu-item {
     font-weight: normal;
     font-family: Arial;
     color: #656565;
-    text-align: left;
 }
 
 .availbalancelabel {
@@ -215,6 +213,37 @@ img.main-menu-item {
     border-top: 0;
 }
 
+.selectedpayacctlabel {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 8pt;
+    line-height: 0.5em;
+    color: #666;
+    float: left;
+}
+
+.payacctli{
+    font-size: 11pt;
+    font-weight: bold;
+    font-family: Arial;
+    color: #2073ae;
+    text-align: left;
+    line-height: 28.8px;
+}
+
+.payacctbuttonli {
+ padding: 0px 0px 0px 0px;
+
+ background-image: url(../img/RecentTransactions-Filter-Background-CapOne.png);  
+background-size:100% 100%;
+}
+
+.payacctaddbutton {
+    font-size: 11pt;
+    font-weight: bold;
+    line-height: 28.8px;
+    color: #6b6b6b;
+}
 
 .confirmlabel {
     font-size: 9pt;

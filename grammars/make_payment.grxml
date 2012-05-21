@@ -79,6 +79,21 @@
     </item>
 
     <item>
+      <one-of>
+          <item>
+              change from account
+          </item>
+          <item>
+              change payment account
+          </item>
+      </one-of>
+      <tag>
+          out.SLOTS.action = "changesource";
+      </tag>
+    </item>
+
+
+    <item>
         <one-of>
             <item>
                 help 

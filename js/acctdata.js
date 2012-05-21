@@ -52,18 +52,25 @@ AccountData.account = (function($) {
     };
 
 
-     
-    var select_acct_element = function() {
-        return $('<select name="acct-choice" id="acct-choice"' +
-                 ' data-native-menu="false" data-corners="false"></select>');
+
+    var list_acct_element = function() {
+        return $('<ul data-role="listview" data-inset="true" data-theme="c"></ul>');
     };
 
-    var select_acct_option = function(acct_name, acct_number, selected) {
-        var extra  = $.inArray(acct_number, [selected, _active_src_number]) < 0 ?
-                     '' : ' selected="selected"';
-        var option = '<option value="' + acct_number + '"' + extra + 
-                     '>' + acct_name + '</option>'; 
-            return $(option);
+    var list_acct_option = function(acct_name, acct_number, selected) {
+        var option;
+        if ($.inArray(acct_number, [selected, _active_src_number]) < 0) {
+            option = '<li onclick=\'setAcctFrom("' + acct_number + '");\'>' +
+                '<span class="payacctli">' + acct_name + ' ... ' + acct_number.substr(-4) + '</span>'+
+                '</li>';
+        }
+        else{
+            option = '<li data-icon="check");\'>' +
+                '<a href="#payment">' +
+                '<span class="payacctli">' + acct_name + ' ... ' + acct_number.substr(-4) + '</span></a>' +
+                '</li>';
+        }
+        return $(option);
     };
 
 
@@ -93,37 +100,6 @@ AccountData.account = (function($) {
     };
 
 
-
-    var listAccts = function(div, disabled) {
-        var div = $('#' + div);
-        div.empty();
-        
-        var selected_src_number = AccountData.account.active_src_number();
-        // Build the list
-        var list = select_acct_element().appendTo(div);
-        $(data.src_accounts).each( function(i, acct) {
-            select_acct_option(acct.name, acct.number, selected_src_number).appendTo(list);
-        });
-        $('<option value="add">Add New Account</option>').appendTo(list);
-        $('<option>Select Account</option>').appendTo(list);
-        list.selectmenu();
-        //now hide the list by setting the parent div to hide
-        //  This allows us to create another area to display more information 
-        //  about the selection
-        $('#list-acctfrom').hide();
-        // Setup the default change handler to record active src number
-        list.on('change', function() {
-            if (list[0].value == "add") {
-                $.mobile.changePage($("#acct_add"));             
-            } else {
-                _active_src_number = list[0].value;
-                populate_src_acct_info();
-            }
-        });
-        // Call the change handler to update the active src number
-        list.change();
-        return list; 
-    };
 
     var listPaymentOptions = function(div, disabled) {
         var div = $('#' + div);
@@ -168,8 +144,27 @@ AccountData.account = (function($) {
         return list;
     }
 
+    var listAcctOptions = function(div) {
+        var div = $('#' + div);
+        div.empty();
+        
+        var selected_src_number = AccountData.account.active_src_number();
+        // Build the list
+        var list = list_acct_element().appendTo(div);
+        $(data.src_accounts).each( function(i, acct) {
+            list_acct_option(acct.name, acct.number, selected_src_number).appendTo(list);
+        });
+
+        $('<li data-icon="plus" class="payacctbuttonli"><a href="#acct_add"><span class="payacctaddbutton">Add New Account</span></a></li>').appendTo(list);
+        list.listview();
+        return list; 
+    }
+
 
     var src_account = function() {
+        if (_active_src_number == null) {
+            _active_src_number = data.src_accounts[0].number;
+        }
         return $.grep(data.src_accounts, function(acct) {
             return acct.number === _active_src_number;
         })[0];
@@ -198,7 +193,11 @@ AccountData.account = (function($) {
         var datebox_date = AccountData.utils.date_due_datebox(acct.datedue);
         $('#pmtdatehidden').data('datebox').options.highDates = [datebox_date];
         $('#acctname1').html(name);
-        
+       
+        // set value in acctfrom
+        // set value in acctadd 
+        $('#acctname-acctfrom').html(name);
+
         // set value in acctadd 
         $('#acctname-acctadd').html(name);
       
@@ -245,7 +244,8 @@ AccountData.account = (function($) {
         }
 
     }
-    
+   
+
     var populate_src_acct_info = function() {
         var src_acct = src_account();
         var src_acct_name = src_acct.name;
@@ -260,7 +260,7 @@ AccountData.account = (function($) {
         if (src_acct_balance != null) {
              summary += '<td class="availbalancelabel">Avail Balance</td>';
         }
-        summary += '</tr><tr><td class="pmtacctdata">' + src_acct_name + '</td>';
+        summary += '</tr><tr><td class="pmtacctdata">' + src_acct_name +  " ... " + src_acct_num_last4 + '</td>';
         // display balance only if available
         if (src_acct_balance != null) { 
             summary += '<td class="availbalancedata">$' + src_acct_balance + '</td>';
@@ -278,12 +278,12 @@ AccountData.account = (function($) {
         var selected_cc_number = AccountData.account.active_cc_number();
         var cc_acct = dest_account();
         var pay_to_name = cc_acct.name;
-        var pay_to_number = $('#card-choice').val();
-        var pay_to_number_last4 = "x" + pay_to_number.substr(-4);
+        var pay_to_number = cc_acct.number; 
+        var pay_to_number_last4 = " ... " + pay_to_number.substr(-4);
         var src_acct = src_account();
         var pay_from_name = src_acct.name;
-        var pay_from_number = $('#acct-choice').val();
-        var pay_from_number_last4 = "x" + pay_from_number.substr(-4);
+        var pay_from_number = src_acct.number;
+        var pay_from_number_last4 = " ... " + pay_from_number.substr(-4);
         var pay_amt = $('#pmtamount').val();
         var pay_date = $('#pmtdate').val();
         var est_pay_date = $('#estdate').html();
@@ -364,23 +364,6 @@ AccountData.account = (function($) {
                 }
             }
         },
-        initAcctDropdown: function(div, disabled, callback) {
-            var url = makeAccountUrl();
-            if (data === null) {
-                $.getJSON(url, function(results) {
-                    data = results;
-                    var list = listAccts(div, disabled);
-                    if (typeof callback === 'function') {
-                        callback(list, data);
-                    }
-                });
-            } else {
-                var list = listAccts(div, disabled);
-                if (typeof callback === 'function') {
-                    callback(list, data);
-                }
-            } 
-        },
         initPmtOptsDropdown: function(div, disabled, callback) {
             var url = makeAccountUrl();
             if (data === null) {
@@ -397,7 +380,13 @@ AccountData.account = (function($) {
                     callback(list, data);
                 }
             } 
-        }, 
+        },
+        initAcctSelect: function(div, callback){
+            var list = listAcctOptions(div);
+            if (typeof callback === 'function') {
+                callback(list, data);
+            }
+        },
         setDefaultPaymentDates: function() {
                             var date = new Date();
                             var month_name = month[date.getMonth()];
@@ -431,11 +420,11 @@ AccountData.account = (function($) {
         active_src_number: function() {
             return _active_src_number;
         },
-        refresh_src_dropdown: function (div) {
-            return listAccts(div,false);
-        },
         get_current_balance: function() {
             return dest_account().balance;
+        },
+        populate_src_acct_info: function() {
+            return populate_src_acct_info();
         },
         get_minimum_payment: function () {
             if (dest_account().minpmt  != null) {

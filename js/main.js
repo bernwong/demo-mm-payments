@@ -104,9 +104,7 @@ function payment_beforeshow() {
     dropdown.change();
   });
 
-  AccountData.account.initAcctDropdown('list-acctfrom', false, function(list, data) {
-          //        alert("test");
-  });
+  AccountData.account.populate_src_acct_info(); 
 
   AccountData.account.initPmtOptsDropdown("list-payment-amount", false, function(list, data) {
       
@@ -189,7 +187,7 @@ function payment_grammarHandler(result) {
                     // set the new active source account
                     // and then refresh the list
                     AccountData.account.set_active_src_number(source);
-                    AccountData.account.refresh_src_dropdown('list-acctfrom');
+                    AccountData.account.populate_src_acct_info();
                 }
                 if (destination != "none") {
                     //_active_cc_number = destination
@@ -216,14 +214,11 @@ function payment_grammarHandler(result) {
                 
             }
         }
-/*
+
         else if (action == 'changesource') {
-            if (source == 'checking') {
-                setAcct(0, FROM_TYPE);
-            } else if (source == 'savings') {
-                setAcct(1, FROM_TYPE);
-            }
+            $.mobile.changePage("#acct_from");
         }
+/*
         else if (action == 'changedestination') {
             if (destination == 'platinum') {
                 setAcct(0, TO_TYPE);
@@ -247,37 +242,34 @@ function payment_grammarHandler(result) {
 }
 
 //-----------------------------------------------------------------------------
-/*
+
 var acctfrom_prompted = false;
 var acctfrom_reco_errors = 0;
 
 function acctfrom_grammar() {
     return "grammars/payment_src.grxml";
-    //  return gDynamicGrammarRootUrl + "?type=mainmenu&merchants=" + merchants();
 }
 
 function acctfrom_beforeshow() {
-    //  AccountData.account.init(gAcctNumber);
-    AccountData.account.initDropdown('last-4-digits-acctfrom', false, function(dropdown, data) {
-            // Callback sets up onchange handler for dropdown
-            dropdown.on('change', function () {
-                //   TransactionList.init();
-                //  TO DO  Instead of updating transaction list, update the menu entries
-                });
-
-            // Initiate onchange event
-            dropdown.change();
-            });
-
-    //TransactionList.clear_filters();
+    NativeBridge.setMessage(null);
+    AccountData.account.initDropdown('last-4-digits-acctfrom', true, function(dropdown, data) {
+        // Callback sets up onchange handler for dropdown
+        dropdown.on('change', function () {
+        //  TO DO  Instead of updating transaction list, update the menu entries
+        });
+        // Initiate onchange event
+        dropdown.change();
+    });
+    AccountData.account.initAcctSelect('list-acctfrom', false, function(list, data) {
+          //        alert("test");
+    });
 }
 
 function acctfrom_show() {
-  mainmenu_reco_errors = 0;
-  NativeBridge.setMessage("How can I help you?");
+  acctfrom_reco_errors = 0;
   NativeBridge.setGrammar(acctfrom_grammar(), null, acctfrom_grammarHandler);
   if (!acctfrom_prompted) {
-    NativeBridge.playAudio("audio/RT_Menu_01.wav");
+//    NativeBridge.playAudio("audio/RT_Menu_01.wav");
     acctfrom_prompted = true;
   }
 }
@@ -287,8 +279,39 @@ function acctfrom_beforehide() {
 }
 
 function acctfrom_grammarHandler(result) {
+
+    if (result == null || result.length == 0) {
+        NativeBridge.playAudio("audio/sorry.wav");
+        NativeBridge.setMessage("What?");
+        NativeBridge.setGrammar(acctfrom_grammar(), null, acctfrom_grammarHandler);
+    } else {
+        NativeBridge.setMessage(null);
+        NativeBridge.setGrammar(acctfrom_grammar(), null, acctfrom_grammarHandler);
+
+        var interpretation = result[0].interpretation;
+
+        if (interpretation == 'help') {
+            $.mobile.changePage("#chat");
+        }
+        else if (interpretation == 'back') {
+            $.mobile.changePage("#payment");
+        }
+        else if (interpretation == 'add') {
+            $.mobile.changePage("#acct_add");
+        }
+        else {
+            // set the new active source account
+            // and then refresh the list
+            setAcctFrom(interpretation);
+       } 
+    }
 }
-*/
+
+function setAcctFrom(number) {
+    AccountData.account.set_active_src_number(number);
+    $.mobile.changePage("#payment");
+}
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 

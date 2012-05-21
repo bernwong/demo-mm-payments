@@ -129,13 +129,14 @@
           <div class="ui-block-a right-border">
           <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td>
-            <a onclick="$('#pmt-choice').selectmenu('open');">
+              <td>
+                  <!-- Uncomment the anchors to enable selection 
+                  between minumum payment and current balance -->
+
+                <!--        <a onclick="$('#pmt-choice').selectmenu('open');"> -->
                 <div class="payment-due-label"><span id="pmtoptlabel"></span></div>
                 <div><span id="minimum-payment-value" class="payment-value" style="color: black"></span></div>
-            </td>
-            <td align="center" width="25">
-                <a onclick="$('#pmt-choice').selectmenu('open');"><img valign="bottom" height="18" src="img/arrow-d.png"/></a>
+                <!--  </a> -->
             </td>
            </tr>
            </table>
@@ -159,20 +160,12 @@
        <div data-role="content" style="line-height: 2em">&nbsp;</div>
       <div class="page-heading">Make a Payment</div>
       <div data-role="content">
-          <!--
-          <a onclick="$('#list-acctfrom').show();">SHOW</a>
-          <a onclick="$('#list-acctfrom').hide();">HIDE</a>
-          <a onclick="$('#acct-choice').selectmenu('open');">OPEN</a>
-          --> 
-          <!--
-          <ul data-role="listview" data-inset="true" data-filter="false">
-              <li><a href="#acct_from"><span class="ui-block-b detail-type">Pay From:</span>&nbsp;&nbsp;<span class="" id="from_acct_nickname">Acct nickname</span>, <span class="" id="from_acct_num">last 4 digits of acct</span></a></li>
-          </ul>
-          -->
 
           <ul data-role="listview" data-inset="true" data-corners="false">
-              <li data-icon="arrow-d">
-                  <a onclick="$('#acct-choice').selectmenu('open');"><div id="src-acct-info"></div></a>
+              <li data-icon="arrow-r">
+                <a href="#acct_from">
+                    <div id="src-acct-info"></div>
+                </a>
               </li>
               <li>
              <!--  <label for="pmtamount" class="ui-hidden-accessible"/> -->
@@ -182,7 +175,7 @@
                      <div class="ui-block-a">
                          <label for="pmtamount"><span class="amtlabel">Amount</span></label><br/>
                          <div> 
-                             <input type="number" name="pmtamount" id="pmtamount" class="amtdata" size="13" data-role="none" value=""/>
+                             <input type="text" name="pmtamount" id="pmtamount" class="amtdata" size="13" data-role="none" value=""/>
                          </div> 
                      </div>
                      <div class="ui-block-b">
@@ -195,26 +188,7 @@
                      </div>
                  </div>
 
-                 <!-- This is a placeholder for the select element of payment account options
-                      It is kept hidden since we want to be able to see a more formatted
-                      verrsion of the selected option.  The select element can only display
-                      in a single line and what you select is the only thing you see.
-                      For payment accounts, we want to see additional info like avail balance
-                 -->
-                 <div class="" id="list-acctfrom"></div> 
-                 <div class="" id="list-payment-amount"></div>
               </li> 
-          <!-- 
-          <label for="pmtdate">Payment Date</label>
-          <input name="pmtdate" id="pmtdate" type="date" data-role="datebox" data-options='{"mode": "calbox"}' onblur="updateEstDate()"/>
-       <label for="mydate">Some Date</label>
-
-       <input name="mydate" id="mydate" type="date" data-role="datebox"
-          data-options='{"mode": "calbox"}'>
-          -->    
-    <!-- 
-          <li class="estpostdate" style="background: #bdedff; border-top:0"> 
-          -->
               <li id="estdatesection" class="estpostdate"> 
                <label for="estdate"><span id="estdatelbl"class="estdatelabel">Estimated Post Date:</span></label>
                <span id="estdate" class="amtdata"></span>
@@ -224,29 +198,20 @@
       </div>
   </div>
   <div id="datebox">
-<!--
-      <input name="pmtdatehidden" id="pmtdatehidden" type="date" class="amtdata" data-role="datebox"  data-options='{"mode": "calbox", "dateFormat":"%B %d, %Y"}' pickPageTheme="c" pickPageButtonTheme="c" onchange="updateEstDate()"/>
-      -->
       <input name="pmtdatehidden" id="pmtdatehidden" type="date" class="amtdata" data-role="datebox" data-options='{"mode": "calbox", "dateFormat":"%B %d, %Y", "afterToday": true}'/>
-
   </div> 
+  
+  <!-- This is a placeholder for the select element of payment account options
+  It is kept hidden since we want to be able to see a more formatted
+  version of the selected option (CURRENT BALANCE/MINUMUM PAYMENT section).  
+  Uncomment the anchor above around the pmtoptlabel to see it work. 
+  -->
+  <div class="" id="list-payment-amount"></div>
+
    <br/><br/>
 </div>
-<!--
-<div id="acct_from_select" data-role="page"  style="background-color: transparent;" >
-        <div data-role="content">
-            <ul  data-role="listview" >
-                <li>fdfds</li>
-                <li>fdfds</li>
-                <li>fdfds</li>
-                <li>fdfds</li>
-                <li>fdfds</li>
-            </ul>
-           <div class=""><a href="#new_acct" data-icon="plus" data-role="button">Add New Account</a></div>
-        </div>
-</div>
--->
-<!--
+
+
 <div id="acct_from" data-role="page" data-theme="b">
     <script type="text/javascript">
         $('#acct_from').on('pagebeforeshow', acctfrom_beforeshow);
@@ -263,32 +228,21 @@
             </table>
         </div>
         <div data-role="content" class="card-bits" data-theme="d">
-            <span id="acctname" class="card-type" data-role="content">Personal Credit Card</span>
+            <span id="acctname-acctfrom" class="card-type" data-role="content">Personal Credit Card</span>
             <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-acctfrom"></div></div>
         </div>
-        <div class="card-bits payment-due-notice">
-            <div class="ui-grid-a">
-                <div class="ui-block-a right-border">
-                    <div class="payment-due-label">CURRENT<br />BALANCE</div>
-                    <div id="minimum-payment-value-acctfrom" class="payment-value"></div>
-                </div>
-                <div class="ui-block-b left-border">
-                    <div class="payment-due-label">PAYMENT<br />DUE</div>
-                    <div id="payment-due-value-acctfrom" class="payment-value"></div>
-                </div>
-            </div>
-        </div>
     </div>
-
+    <div data-role="content" style="line-height: 0.5em">&nbsp;</div>
+    <div class="page-heading">Select Payment Account</div>
     <div>
-        <div data-role="content" style="line-height: 1em">&nbsp;</div>
         <div data-role="content">
             <div class="" id="list-acctfrom"></div>
-            <div class=""><a href="#new_acct" data-icon="plus" data-role="button">Add New Account</a></div>
+            <div data-role="content" style="line-height: 0.2em">&nbsp;</div>
+          <br/><br/><br/>
         </div>
     </div>
 </div>
--->
+
 
 <div id="acct_add" data-role="page">
   <script type="text/javascript">
@@ -311,7 +265,7 @@
   </div>
   <div>
       <div data-role="content" style="line-height: 0.2em">&nbsp;</div>
-      <div class="page-heading">Add New "From" Account</div>
+      <div class="page-heading">Add New Payment Account</div>
       <div data-role="content">
           <ul data-role="listview" data-inset="true" >
               <li>
