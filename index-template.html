@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Payments</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+
+  <!-- jQuery -->
+  <link type="text/css" rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" title="style1"/>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+
+  <!-- jQuery Mobile plugins -->
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile.datebox-1.0.1.css" /> 
+  <script type="text/javascript" src="js/jquery.mobile.datebox.js"></script>
+  <script type="text/javascript" src="js/jquery.mobile.datebox.i18n.en.js"></script>
+  <script type="text/javascript" src="js/jquery.ui.datepicker.js"></script>
+
+  <!-- Other 3rd party helpers -->
+<!--
+  <script type="text/javascript" src="js/jqm.page.params.js"></script>
+-->
+
+  <!-- Application CSS/Javascript -->
+  <link type="text/css" rel="stylesheet" href="css/demo.css" />
+  <link type="text/css" rel="stylesheet" href="css/client-$CLIENT_NAME.css" />
+  <script type="text/javascript" src="common/js/bridge.js"></script>
+  <script type="text/javascript" src="js/client-$CLIENT_NAME.js"></script>
+  <script type="text/javascript" src="js/utils.js"></script>
+  <script type="text/javascript" src="js/acctdata.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body onload="load()">
+
+<!-- MAIN MENU PAGE -->
+<div data-role="page" id="main-menu" data-title="Main Menu">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <div class="logo"></div>
+    <div data-role="content" class="card-bits card-select-bar">
+      <span class="card-type" data-role="content" id="acctname-mainmenu">Personal Credit Card</span>
+      <div class="second-left-border">
+        <div class="card-info left-border" id="last-4-digits-main">
+        </div>
+      </div>
+    </div>
+      
+    <div data-role="content" class="card-bits payment-due-notice">
+      <div class="ui-grid-a">
+        <div class="ui-block-a right-border">
+          <div class="payment-due-label"><span id="pmtoptlabel-mainmenu"></span></div>
+          <div><span id="minimum-payment-value-mainmenu" class="payment-value" style="color: black"></span></div>
+        </div>
+        <div class="ui-block-b left-border">
+          <div class="payment-due-label">PAYMENT<br />DUE</div>
+          <div><span id="payment-due-value-mainmenu" class="payment-value"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu-tastic Main -->
+  <div id="main-list">
+    <!-- Navigation -->
+    <div class="ui-grid-b" id="main-menu-nav">
+      <div class="ui-block-a main-menu-item-cont">
+        <img alt="Recent Transactions" src="img/$CLIENT_NAME/menu1.png" class="main-menu-item" />
+      </div>
+      <div class="ui-block-b main-menu-item-cont center-button">
+        <img id="make-a-payment-button" alt="Make a Payment" src="img/$CLIENT_NAME/menu2.png" class="main-menu-item" />
+      </div>
+      <div class="ui-block-c main-menu-item-cont">
+        <img alt="Find an ATM" src="img/$CLIENT_NAME/menu3.png" class="main-menu-item" />
+      </div>
+      <div class="ui-block-a main-menu-item-cont second-row">
+        <img alt="Reward Points" src="img/$CLIENT_NAME/menu4.png" class="main-menu-item" />
+      </div>
+      <div class="ui-block-b main-menu-item-cont second-row center-button">
+        <img alt="Contact Us" src="img/$CLIENT_NAME/menu5.png" class="main-menu-item"  />
+      </div>
+      <div class="ui-block-c main-menu-item-cont second-row">
+        <img alt="Report a Missing Card" src="img/$CLIENT_NAME/menu6.png" class="main-menu-item" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAYMENT PAGE -->
+<div data-role="page" id="payment" data-title="Payment">
+<!-- 
+  needed the additional position fixed style to account for the header not 
+  staying fixed after you opened the date dialog box or the selection options
+-->
+  <div data-role="header" data-position="fixed" data-theme="b"> 
+    <div class="logo">
+      <img id="back-to-main" class="header-button left-button"  src="img/$CLIENT_NAME/back.png" alt="" />
+    </div>
+    <div data-role="content" class="card-bits" data-theme="d">
+      <span id="acctname1" class="card-type" data-role="content">Personal Credit Card</span>
+      <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-payment"></div></div>
+    </div>
+
+<!--
+  WORKAROUND
+  - stop the header here so the datebox object doesn't get partially hidden
+-->
+
+    <div data-role="content" class="card-bits payment-due-notice" data-theme="b">
+      <div class="ui-grid-a">
+        <div id="pmt-options" class="ui-block-a right-border">
+          <div id="pmtoptlabel" class="payment-due-label"></div>
+          <div id="minimum-payment-value" class="payment-value"></div>
+<!--
+          <div class="payment-due-label">CURRENT<br />BALANCE</div>
+          <div id="current-payment-value" class="payment-value"></div>
+-->
+        </div>
+        <div class="ui-block-b left-border">
+          <div class="payment-due-label">PAYMENT<br />DUE</div>
+          <div id="payment-due-value" class="payment-value"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="paymentoptions" data-role="content">
+    <!-- commented out due to workaround for datebox --> 
+    <!--  </div> END OF HEADER -->
+
+    <div class="page-heading">Make a Payment</div>
+
+    <ul data-role="listview" data-inset="true" data-corners="false">
+      <li data-icon="arrow-r">
+        <a href="#acct_from"><div id="src-acct-info"></div></a>
+      </li>
+      <li>
+        <!-- <label for="pmtamount" class="ui-hidden-accessible"/> -->
+        <div class="ui-grid-a">
+          <div class="ui-block-a">
+            <label for="pmtamount"><span class="amtlabel">Amount</span></label><br/>
+            <div> 
+              <input type="text" name="pmtamount" id="pmtamount" class="amtdata" size="13" data-role="none" value=""/>
+            </div> 
+          </div>
+          <div class="ui-block-b">
+            <label for="pmtdate"><span class="amtlabel">Payment Date</span></label>
+            <div>
+              <input readonly="readonly" type="text" name="pmtdate" id="pmtdate" class="amtdata" size="11"  data-role="none" value=""/> 
+              <a id="pmtdate-a">
+                <img width="14" src="img/$CLIENT_NAME/Payments-MakePayment-Calendar-$CLIENT_CAMEL_CASE.png" alt="" /></a>
+            </div>
+          </div>
+        </div>
+
+      </li> 
+      <li id="estdatesection" class="estpostdate"> 
+        <label><span id="estdatelbl" class="estdatelabel">Estimated Post Date:</span></label>
+        <span id="estdate" class="amtdata"></span>
+      </li>
+    </ul>
+    <img id="submit-payment" class="submit-button" src="img/$CLIENT_NAME/Payments-MakePayment-Submit-$CLIENT_CAMEL_CASE.png" alt="" />
+  </div>
+
+  <div id="datebox">
+    <input name="pmtdatehidden" id="pmtdatehidden" type="date" class="amtdata" data-role="datebox" data-options='{"mode": "calbox", "dateFormat":"%B %d, %Y", "afterToday": true}' style="display: none" />
+  </div> 
+  
+  <!-- This is a placeholder for the select element of payment account options
+  It is kept hidden since we want to be able to see a more formatted
+  version of the selected option (CURRENT BALANCE/MINUMUM PAYMENT section).  
+  Uncomment the anchor above around the pmtoptlabel to see it work. 
+  -->
+  <div class="" id="list-payment-amount" style="display: none"></div>
+</div>
+
+
+<!-- ACCT FROM PAGE -->
+<div id="acct_from" data-role="page" data-theme="b">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <div class="logo">
+      <img id="back-to-payment" src="img/$CLIENT_NAME/back.png" class="header-button left-button" alt="" />
+    </div>
+    <div data-role="content" class="card-bits" data-theme="d">
+      <span id="acctname-acctfrom" class="card-type" data-role="content">Personal Credit Card</span>
+      <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-acctfrom"></div></div>
+    </div>
+  </div>
+
+  <div data-role="content">
+    <div class="page-heading">Select Payment Account</div>
+    <div class="" id="list-acctfrom"></div>
+  </div>
+</div>
+
+
+<!-- ACCT ADD PAGE -->
+<div id="acct_add" data-role="page">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <div class="logo">
+      <img id="back-to-acct-from" class="header-button left-button"  src="img/$CLIENT_NAME/back.png" alt="" />
+    </div>
+    <div data-role="content" class="card-bits" data-theme="d">
+      <span id="acctname-acctadd" class="card-type" data-role="content">Personal Credit Card</span>
+      <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-acctadd"></div></div>
+    </div>
+  </div>
+
+  <div data-role="content">
+    <div class="page-heading">Add New Payment Account</div>
+    <ul data-role="listview" data-inset="true" >
+      <li>
+        <div>
+          <label for="newacctname"></label>
+          <input type="text" name="newacctname" id="newacctname" placeholder="NickName" />
+        </div>
+        <div>
+        <label for="newacctrouting"></label>
+          <input type="text" name="newacctrouting" id="newacctrouting" placeholder="Routing #"/>
+        </div>
+        <div>
+          <label for="newacctnumber"></label>
+          <input type="text" name="newacctnumber" id="newacctnumber" placeholder="Account #"/>
+        </div> 
+        <div class="check-image">
+          <img width="280" src="img/$CLIENT_NAME/Payments-NewAccount-CheckImage-$CLIENT_CAMEL_CASE.png" alt="" />
+        </div>
+      </li>
+    </ul>
+    <a id="add-acct-button"><img class="submit-button" src="img/$CLIENT_NAME/Payments-NewAccount-AddAccount-$CLIENT_CAMEL_CASE.png" alt="" /></a>
+  </div>
+</div>
+
+
+<!-- CONFIRM PAGE -->
+<div id="confirm" data-role="page">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <div class="logo">
+      <img id="back-to-payment-confirm" class="header-button left-button" src="img/$CLIENT_NAME/back.png" alt="" />
+    </div>
+    <div data-role="content" class="card-bits" data-theme="d">
+      <span id="acctname-confirm" class="card-type" data-role="content">Personal Credit Card</span>
+      <div class="second-left-border"><div class="card-info left-border" id="last-4-digits-confirm"></div></div>
+    </div>
+  </div>
+
+  <div data-role="content">
+    <div class="page-heading">Payment is scheduled!</div> 
+    <ul data-role="listview" data-inset="true" data-theme="c">
+      <li><span id="txt_confirm"></span></li>
+    </ul>
+    <img id="confirm-continue" class="submit-button" src="img/$CLIENT_NAME/Payments-Scheduled-Continue-$CLIENT_CAMEL_CASE.png" alt="" />
+  </div>
+</div>
+
+
+<!-- SURVEY PAGE -->
+<div id="survey" data-role="page">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <div class="logo">
+      <img id="back-to-main-survey" src="img/$CLIENT_NAME/back.png" class="header-button left-button" alt="" />
+    </div>
+  </div>
+
+  <div data-role="content">
+
+    <div class="help-msg">Please share your feedback:</div>
+
+    <div class="page-content">
+      <div class="survey">
+        <div class="field">
+          <p>Please rate your overall experience with this app from 1 to 5 stars.</p>
+          <ul class="rating">
+            <li class="first"><span id="s-0" class="star"></span></li>
+            <li><span id="s-1" class="star"></span></li>
+            <li><span id="s-2" class="star"></span></li>
+            <li><span id="s-3" class="star"></span></li>
+            <li class="last"><span id="s-4" class="star"></span></li>
+          </ul>
+        </div>
+        <div class="field no-bor">
+          <p>If you feel we can improve this service, please provide your comments.</p>
+          <textarea id="survey-feedback"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-cont" style="padding-top: 10px">
+      <!-- just make it go to the main menu for now -->
+      <a href="#main-menu" data-role="button" data-icon="" class="big-btn no-icon">Submit</a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- CHAT PAGE -->
+<div id="chat" data-role="page">
+  <div data-role="header" data-position="fixed" data-theme="b">
+    <div class="logo-chat">
+      <a href="#" data-rel="back"><img src="img/$CLIENT_NAME/done.png" class="header-button left-button" alt="" /></a>
+    </div>
+  </div>
+
+  <div data-role="content">
+    <div data-role="content" class="chat-bubble-cont">
+      <img src="img/$CLIENT_NAME/Payments-Chat-AgentTextBubbleFilled-$CLIENT_CAMEL_CASE.png" class="chat-bubble" alt="" />
+    </div>
+    <div data-role="fieldcontain">
+      <input type="text" name="question" id="question" style="color: gray" placeholder="Type your question.." />
+    </div>
+  </div>
+</div>
+
+<script>
+payments_demo_init();
+</script>
+
+</body>
+
+</html>
