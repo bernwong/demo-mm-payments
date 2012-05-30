@@ -1,7 +1,6 @@
 /* html, body { height: 100%; } */
 
 .ui-page {
-    background: #013b70 url(../img/bg.png) no-repeat !important;
     width: 320px;
     min-height: 480px;
 }
@@ -19,15 +18,26 @@
     float: left;
 }
 
+.header {
+    z-index: 2;
+}
+
 .logo {
-    background: url("../img/logo.png") no-repeat;
     width: 320px;
-    height: 38px;
+    height: 42px;
 }
 
 .header-button {
     height: 28px;
-    padding-top: 2px;
+    padding-top: 8px;
+}
+.left-button {
+    float: left;
+    padding-left: 3px;
+}
+.right-button {
+    float: right;
+    padding-right: 3px;
 }
 
 .submit-button {
@@ -47,7 +57,8 @@
     text-align: center;
     font-size: 14pt;
     color: white;
-    line-height: 0;
+    text-shadow: none;
+    margin-top: 7px;
 }
 
 
@@ -136,11 +147,13 @@ img.main-menu-item {
 
 /* Make a payment */
 
+#paymentoptions {
+    /*margin-top: 30px;*/
+}
+
 .pmtview {
-    background: url("../img/Payments-MakePayment-FormBackground-CapOne.png") no-repeat;
     margin: -2px 0 0 3px;
     padding: 0;
-
 }
 
 .pmtacctlabel {
@@ -232,10 +245,8 @@ img.main-menu-item {
 }
 
 .payacctbuttonli {
- padding: 0px 0px 0px 0px;
-
- background-image: url(../img/RecentTransactions-Filter-Background-CapOne.png);  
-background-size:100% 100%;
+    padding: 0px 0px 0px 0px;
+    background-size:100% 100%;
 }
 
 .payacctaddbutton {
@@ -261,6 +272,7 @@ background-size:100% 100%;
     font-weight: regular;
     font-family: Arial;
     color: #656565;
+    color: #333333;
     border-bottom: 1px solid #BBB;
     white-space: nowrap;
     line-height: 2em;
@@ -282,6 +294,7 @@ background-size:100% 100%;
     font-weight: regular;
     font-family: Arial;
     color: #656565;
+    color: #333333;
     white-space: nowrap;
     line-height: 2em;
 }
@@ -345,12 +358,17 @@ ul#charges-list a.ui-link-inherit {
 ul#charges-list div.ui-btn-inner {
     padding: 0 !important;
 }
+
+div.card-select-bar {
+    text-shadow: 0px 1px 0px #fff;
+}
 div.card-bits {
     background: -moz-linear-gradient(#FFF, #DDD);
     background: -webkit-linear-gradient(#FFF, #DDD);
     border-bottom: 1px solid #BBB;
     padding: 1px 0 0 0 !important;
     overflow: hidden;
+    box-shadow: 0px 2px 2px rgba(50, 50, 100, 0.5);
 }
 div.card-bits span.card-type {
     color: #06467C;
@@ -390,6 +408,8 @@ div.card-info div.ui-select .ui-btn-corner-all {
 div.card-info div.ui-select span.ui-btn-inner {
     padding-left: 0;
     padding-right: 30px !important;
+    color: #000;
+    text-shadow: 0px 1px 0px #fff;
 }
 div#last-4-digits {
     padding-top: 0;
@@ -456,6 +476,9 @@ div.search-terms > div > span.cancel {
 
 .ui-bar-a {
     text-shadow: none !important;
+}
+.ui-bar-b {
+    border: none;
 }
 
 .detail-type {
@@ -525,7 +548,7 @@ ul.charge-details-values li div.double {
 .help-msg {
     font-size: 18px;
     color: #fff;
-    text-shadow: 0px -1px 0px #555;
+    /*text-shadow: 0px -1px 0px #555;*/
     display: block;
     text-align: center;
     margin: 5px 0 15px 0;
@@ -574,6 +597,7 @@ ul.rating {
 }
 
 .field {
+    clear: left;
     float: left;
     width: 280px;
     padding: 10px;
@@ -621,14 +645,24 @@ ul.rating li {
     border-right: 0 !important;
 }
 
+#main-list {
+    padding-top: 2px;
+}
+
 .payment-due-notice {
+/*
     position: fixed;
-    height: 28.8px;
     z-index: 2;
+*/
+    height: 28.8px;
     width: 100%;
     padding: 0;
     text-shadow: none;
     color: #000;
+    border-bottom: 0;
+}
+.static {
+    position: static;
 }
 
 .payment-due-label {
@@ -673,7 +707,6 @@ div.payment-due-notice div.left-border {
 /* Chat */
 
 .logo-chat {
-    background: url("../img/logo-chat.png") no-repeat;
     width: 320px;
     height: 42px;
 }
