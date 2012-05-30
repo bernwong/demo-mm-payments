@@ -30,6 +30,14 @@ function nbInitialize(o) {
 function emptyGrammarHandler(result) {
 }
 
+function print_event(event, data) {
+  console.log(event.target.id + ': ' + event.type + ' @ ' + event.timeStamp);
+  if (! event.target || ! event.target.id) {
+    console.log(event);
+  }
+  //console.log(data);
+}
+
 //-----------------------------------------------------------------------------
 
 var mainmenu_prompted = false;
@@ -43,8 +51,8 @@ function mainmenu_beforeshow() {
   AccountData.account.init(gAcctNumber);
   AccountData.account.initDropdown('last-4-digits-main', false, function(dropdown, data) {
     // Callback sets up onchange handler for dropdown
-    dropdown.on('change', function () {
-    });
+    //dropdown.on('change', function () {
+    //});
 
     // Initiate onchange event
     dropdown.change();
@@ -90,7 +98,7 @@ function payment_grammar() {
   return "grammars/make_payment.grxml";
 }
 
-function payment_beforeshow() {
+function payment_beforeshow(event, data) {
   NativeBridge.setMessage(null);
   AccountData.account.init(gAcctNumber);
  
@@ -111,18 +119,19 @@ function payment_beforeshow() {
   });
   $('#datebox').hide();
 
-  $('#pmtdatehidden').bind('datebox', function(e,p) {
-          if ( p.method === 'close' ) {
-            if ($('#pmtdatehidden').val() != "") { 
-              $('#pmtdate').val($('#pmtdatehidden').val());
-              AccountData.account.updateEstDate();
-            }
-          }
-          });
-   
+  return false;
 }
 
 function payment_show() {
+  $('#pmtdatehidden').bind('datebox', function(e,p) {
+    if ( p.method === 'close' ) {
+      if ($('#pmtdatehidden').val() != "") { 
+        $('#pmtdate').val($('#pmtdatehidden').val());
+        AccountData.account.updateEstDate();
+      }
+    }
+  });
+
   payment_reco_errors = 0;
 //  NativeBridge.setMessage(null);
   NativeBridge.setGrammar(payment_grammar(), null, payment_grammarHandler);
@@ -500,4 +509,94 @@ function survey_doStar(vid){
 function chat_show() {
   NativeBridge.setMessage(null);
   NativeBridge.setGrammar(null, null, emptyGrammarHandler);
+}
+
+function main_menu_init() {
+    $('#main-menu').on('pagebeforeshow', mainmenu_beforeshow);
+    $('#main-menu').on('pageshow', mainmenu_show);
+    $('#main-menu').on('pagebeforehide', mainmenu_beforehide);
+    $('#make-a-payment-button').on('click', function () {
+        $.mobile.changePage($('#payment'));
+    });
+}
+
+function payments_init() {
+    $('#payment').on('pagebeforeshow', payment_beforeshow);
+    $('#payment').on('pageshow', payment_show);
+    $('#payment').on('pagebeforehide', payment_beforehide);
+    $('#back-to-main').on('click', function () {
+        $.mobile.changePage($('#main-menu'));
+    });
+    $('#pmtdate, #pmtdate-a').on('click', function () {
+        $('#pmtdatehidden').datebox('open');
+    });
+    $('#submit-payment').on('click', function () {
+        $.mobile.changePage($('#confirm'));
+    });
+    // Uncomment to enable selection between
+    // minimum payment and current balance.
+/*
+    $('#pmt-options').on('click', function () {
+        $('#pmt-choice').selectmenu('open');
+    });
+*/
+}
+
+function acct_from_init() {
+    $('#acct_from').on('pagebeforeshow', acctfrom_beforeshow);
+    $('#acct_from').on('pageshow', acctfrom_show);
+    $('#acct_from').on('pagebeforehide', acctfrom_beforehide);
+    $('#back-to-payment').on('click', function () {
+        $.mobile.changePage($('#payment'));
+    });
+}
+
+function acct_add_init() {
+    $('#acct_add').on('pagebeforeshow', acctadd_beforeshow);
+    $('#acct_add').on('pageshow', acctadd_show);
+    $('#acct_add').on('pagebeforehide', acctadd_beforehide);
+    $('#back-to-acct-from').on('click', function () {
+        $.mobile.changePage($('#acct_from'));
+    });
+    $('#newacctname,#newacctrouting,#newacctnumber').on('click', function () {
+        NativeBridge.setMessage(null);
+    });
+    $('#add-acct-button').on('click', add_acct);
+}
+
+function confirm_init() {
+    $('#confirm').on('pagebeforeshow', confirm_beforeshow);
+    $('#back-to-payment-confirm').on('click', function () {
+        $.mobile.changePage($('#payment'));
+    });
+    $('#confirm-continue').on('click', function () {
+        $.mobile.changePage($('#survey'));
+    });
+}
+
+function survey_init() {
+    $('#survey').on('pagebeforeshow', survey_beforeshow);
+    $('#survey').on('pageshow', survey_onshow);
+    $('#back-to-main-survey').on('click', function () {
+        $.mobile.changePage($('#confirm'));
+    });
+    $('ul.rating li').on('click', function () {
+        survey_doStar(this.firstChild.id.replace('s-', ''));
+    });
+}
+
+function chat_init() {
+    $('#chat').on('pageshow', chat_show);
+}
+
+function payments_demo_init() {
+    //$('div[data-role=page]').live('mobileinit pageinit pagecontainercreate pagebeforechange pagechange pagechangefailed pagebeforecreate pagecreate create pagebeforeshow pageshow pagebeforehide pagehide', function (event, data) { print_event(event, data); });
+
+    main_menu_init();
+    payments_init();
+    acct_from_init();
+    acct_add_init();
+    confirm_init();
+    survey_init();
+    chat_init();
 }
