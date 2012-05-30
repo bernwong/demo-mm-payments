@@ -27,7 +27,7 @@ AccountData.account = (function($) {
     var _active_cc_number = null;
     var _active_src_number = null;
 
-    var mc_img = '<img src="img/mastercard.png" height="28px" style="padding-top: 2px;"/>';
+    var mc_img = '<img src="img/' + Client.name + '/card.png" height="28px" style="padding-top: 2px;"/>';
 
 
     var makeAccountUrl = function() {
@@ -43,11 +43,11 @@ AccountData.account = (function($) {
 
 
     var select_option = function(cc_number, selected) {
-        var last_4 = cc_number.substr(-4);
+        var last_4 = cc_number.substr(-Client.card_show_digits);
         var extra  = $.inArray(cc_number, [selected, _active_cc_number]) < 0 ?
                      '' : ' selected="selected"';
         var option = '<option value="' + cc_number + '"' + extra +
-                     '>...' + last_4 + '</option>';
+                     '>' + Client.card_digits_prefix + last_4 + '</option>';
         return $(option);
     };
 
@@ -190,8 +190,10 @@ AccountData.account = (function($) {
        
         // set values in payment
         $('#payment-due-value').html(date);
+        try {
         var datebox_date = AccountData.utils.date_due_datebox(acct.datedue);
         $('#pmtdatehidden').data('datebox').options.highDates = [datebox_date];
+        } catch (error) {}
         $('#acctname1').html(name);
        
         // set value in acctfrom
@@ -267,7 +269,6 @@ AccountData.account = (function($) {
         }
         summary += '</tr></table>';
 
-        
         var div = $('#src-acct-info');
         div.empty();
         $(summary).appendTo(div);
@@ -279,7 +280,9 @@ AccountData.account = (function($) {
         var cc_acct = dest_account();
         var pay_to_name = cc_acct.name;
         var pay_to_number = cc_acct.number; 
-        var pay_to_number_last4 = " ... " + pay_to_number.substr(-4);
+        //var pay_to_number_last4 = " ... " + pay_to_number.substr(-4);
+        var pay_to_number_last4 = ' ' + Client.card_digits_prefix + ' ' +
+            pay_to_number.substr(-Client.card_show_digits);
         var src_acct = src_account();
         var pay_from_name = src_acct.name;
         var pay_from_number = src_acct.number;
@@ -388,12 +391,12 @@ AccountData.account = (function($) {
             }
         },
         setDefaultPaymentDates: function() {
-                            var date = new Date();
-                            var month_name = month[date.getMonth()];
-                            var year = date.getFullYear();
-                            var day = date.getDate();
-                            $('#pmtdate').val( month_name + ' ' + day + ', '+ year);
-                            update_est_date();
+            var date = new Date();
+            var month_name = month[date.getMonth()];
+            var year = date.getFullYear();
+            var day  = date.getDate();
+            $('#pmtdate').val( month_name + ' ' + day + ', '+ year);
+            update_est_date();
         },
         setDefaultPayment:  set_payment_amount,
         addAcct: add_src_acct,
