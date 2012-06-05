@@ -3,125 +3,132 @@
 <grammar xml:lang="en-US" version="1.0" xmlns="http://www.w3.org/2001/06/grammar" root= "ROOT" tag-format="semantics/1.0">
 
 <rule id="ROOT">
-  <tag>out.SLOTS={};
-            out.SLOTS.action = "none"; 
-            out.SLOTS.amount = "none";
-            out.SLOTS.source = "none";
-            out.SLOTS.destination = "none";
-            out.SLOTS.date = "none";
-  </tag>         
-  <item repeat="0-1">
-    i 
-    <one-of>
-      <item>want to</item>
-      <item>wanna</item>
-    </one-of>
-  </item>
+  <tag>
+    out.SLOTS = {
+       action:      'none',
+       amount:      'none',
+       source:      'none',
+       destination: 'none',
+       date:        'none'
+    };
+  </tag>
+
+  <ruleref uri="/content/paydemo/grammars/wanna.grxml" />
+
   <one-of>
     <item>
-        pay now
-        <tag> 
-            out.SLOTS.action = "pay"; 
-        </tag>
+      <one-of>
+        <item>
+          pay now
+        </item>
+        <item>
+          submit
+          <item repeat="0-1">payment</item>
+        </item>
+      </one-of>
+      <tag>out.SLOTS.action = "submit";</tag>
     </item>
 
     <item>
       pay 
-	  <tag> out.SLOTS.action = "pay"; </tag>
-	  <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_amount.grxml"/>
-      <tag> 
-          out.SLOTS.amount = rules.latest(); 
-      </tag>
+      <tag>out.SLOTS.action = "pay";</tag>
+
+      <ruleref uri="/content/paydemo/grammars/payment_amount.grxml"/>
+      <tag>out.SLOTS.amount = rules.latest();</tag>
 
       <item repeat="0-1">
-           from <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_src.grxml"/>
-           <tag> 
-               out.SLOTS.source = rules.latest(); 
-           </tag>
+         from <ruleref uri="/content/paydemo/grammars/payment_src.grxml"/>
+         <tag>out.SLOTS.source = rules.latest();</tag>
       </item>
 
+<!--
       <item repeat="0-1">
-          to <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/payment_dest.grxml"/>
-          <tag> 
-              out.SLOTS.destination = rules.latest();
-          </tag> 
+        to <ruleref uri="/content/paydemo/grammars/payment_dest.grxml"/>
+        <tag>out.SLOTS.destination = rules.latest();</tag> 
       </item>
+-->
 
       <item repeat="0-1">
          <item>
            <one-of>
              <item>
-               on <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/date.grxml"/>
-               <tag> 
-                   out.SLOTS.date = rules.latest(); 
-               </tag>
+               on <ruleref uri="/content/paydemo/grammars/date.grxml"/>
+               <tag>out.SLOTS.date = rules.latest();</tag>
              </item>
            </one-of>
          </item>
       </item>
     </item>
 
+
     <item>
-      <one-of>
-          <item>
-              add a new from account
-          </item>
-          <item>
-              add a new payment account
-          </item>
-          <item>
-              add a new account
-          </item>
-      </one-of> 
-      <tag> 
-          out.SLOTS.action = "addsource"; 
-      </tag>
+      add <item repeat="0-1">a</item> new
+      <item repeat="0-1">
+        <one-of>
+          <item>from</item>
+          <item>payment</item>
+        </one-of>
+      </item>
+      account
+      <tag>out.SLOTS.action = "addsource";</tag>
+    </item>
+
+
+    <!-- Change payment account to [payment accounts] -->
+    <item>
+      change
+      <item repeat="0-1">the</item>
+      <item repeat="0-1">
+        <one-of>
+          <item>from</item>
+          <item>payment</item>
+        </one-of>
+      </item>
+      account
+      <tag>out.SLOTS.action = "changesource";</tag>
+      <item repeat="0-1">
+        to
+        <ruleref uri="/content/paydemo/grammars/payment_src.grxml"/>
+        <tag>out.SLOTS.source = rules.latest();</tag>
+      </item>
+    </item>
+
+
+    <item>
+      change
+      <item repeat="0-1">the</item>
+      date to
+      <tag>out.SLOTS.action = 'changedate';</tag>
+      <ruleref uri="/content/paydemo/grammars/date.grxml"/>
+      <tag>out.SLOTS.date = rules.latest()</tag>
+    </item>
+
+    <item>
+      change
+      <item repeat="0-1">the</item>
+      amount to
+      <tag>out.SLOTS.action = 'changeamount';</tag>
+      <ruleref uri="/content/paydemo/grammars/payment_amount.grxml"/>
+      <tag>out.SLOTS.amount = rules.latest()</tag>
     </item>
 
     <item>
       <one-of>
-          <item>
-              change from account
-          </item>
-          <item>
-              change payment account
-          </item>
+        <item>help</item>
+        <item><item repeat="0-1">speak with an</item> agent</item>
       </one-of>
-      <tag>
-          out.SLOTS.action = "changesource";
-      </tag>
+      <tag>out.SLOTS.action = "help";</tag>
     </item>
 
 
     <item>
-        <one-of>
-            <item>
-                help 
-            </item>
-            <item>
-                speak with an agent 
-            </item>
-        </one-of>
-        <tag>
-            out.SLOTS.action = "help";
-        </tag>
+      <one-of>
+        <item><item repeat="0-1">go</item> back</item>
+      </one-of>
+      <tag>out.SLOTS.action = "back";</tag>
     </item>
 
-    <item>
-        <one-of>
-            <item>
-                back
-            </item>
-            <item>
-                go back
-            </item>
-        </one-of>
-        <tag>
-            out.SLOTS.action = "back";
-        </tag>
-    </item>
-
-</one-of> 
+  </one-of> 
 </rule>
 
 </grammar>

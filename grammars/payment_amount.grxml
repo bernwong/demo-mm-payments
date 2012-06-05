@@ -8,6 +8,7 @@
          xmlns="http://www.w3.org/2001/06/grammar">
  <rule id="gsl_top" scope="public">
   <one-of>
+
    <item weight="0.25581">
     current
     <item repeat="0-1" repeat-prob="0.99">
@@ -25,6 +26,7 @@
     </item>
     <tag>out = "current_balance";</tag>
    </item>
+
    <item weight="0.25581">
     statement
     <item repeat="0-1" repeat-prob="0.99">
@@ -39,6 +41,7 @@
     </item>
     <tag>out = "statement_balance";</tag>
    </item>
+
    <item weight="0.25581">
     minimum
     <item repeat="0-1" repeat-prob="0.01">minimum</item>
@@ -57,11 +60,18 @@
     </item>
     <tag>out = "minimum_due";</tag>
    </item>
+
    <item weight="0.23255">
-    <ruleref uri="http://ec2-184-72-7-75.us-west-1.compute.amazonaws.com/content/paymentdemo/grammars/natural_numbers_thru_999_nozero.grxml"/>
+    <ruleref uri="/content/paydemo/grammars/natural_numbers_thru_999_nozero.grxml"/>
     dollars
     <tag>out = rules.latest();</tag>
+    <item repeat="0-1" repeat-prob="0.01" weight="0.25">
+      <ruleref uri="/content/paydemo/grammars/natural_numbers_thru_99_nozero.grxml"/>
+      cents
+    <tag>out += '.' + rules.latest();</tag>
+    </item>
    </item>
+
   </one-of>
  </rule>
 

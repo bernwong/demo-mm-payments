@@ -5,34 +5,27 @@
 <rule id="payment_dest">
   <one-of>
      <item>
+       platinum
+       <item repeat="0-1">
        <one-of>
          <item>
-           platinum 
+           card
          </item>
          <item>
-           platinum card
-         </item>
-         <item>
-           platinum mastercard
+           mastercard
          </item>
        </one-of>
+       </item>
        <tag>out = "9999888829481637";</tag>
      </item>
      <item>
-       <one-of>
-         <item>
-           rewards
-         </item>
-         <item>
-           rewards card
-         </item>
-         <item>
-           cash rewards 
-         </item>
-         <item>
-           cash rewards card
-         </item>
-       </one-of>
+       <item repeat="0-1">
+         cash
+       </item>
+       rewards
+       <item repeat="0-1">
+         card
+       </item>
        <tag>out = "9999888826759163";</tag>
      </item>
   </one-of>
