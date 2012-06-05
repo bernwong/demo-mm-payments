@@ -29,3 +29,6 @@ capone:
 
 clean_capone:
 	bin/generate_client_files.pl -clean capone
+
+ec2_deploy: all
+	rsync -ravz -e "ssh -i $(HOME)/.ssh/fkg-p.pem -l ec2-user" . ec2-user@ec2-184-72-7-75.us-west-1.compute.amazonaws.com:/var/www/html/content/paydemo/
