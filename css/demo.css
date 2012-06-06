@@ -1,5 +1,13 @@
 /* html, body { height: 100%; } */
 
+:-moz-placeholder {
+    color: #aaa;
+}
+
+::--webkit-input-placeholder {
+    color: #aaa;
+}
+
 .ui-page {
     width: 320px;
     min-height: 480px;
@@ -113,6 +121,10 @@
 }
 
 /* Main menu */
+
+#main-list {
+    padding-top: 2px;
+}
 
 #main-menu-nav {
     /*width: 320px;*/
@@ -387,7 +399,7 @@ div.card-info {
     padding: 0 0 0 8px;
     height: 31px;
     overflow: hidden;
-    width: 115px;
+    width: 122px;
 }
 div.second-left-border {
     float: right;
@@ -414,7 +426,7 @@ div.card-info div.ui-select span.ui-btn-inner {
 div#last-4-digits {
     padding-top: 0;
     margin-top: 0;
-    width: 112px;
+    width: 122px;
 }
 
 div.charge-details,
@@ -643,10 +655,6 @@ ul.rating li {
     -moz-border-radius: 0px 4px 4px 0px;
     border-radius: 0px 4px 4px 0px;
     border-right: 0 !important;
-}
-
-#main-list {
-    padding-top: 2px;
 }
 
 .payment-due-notice {
