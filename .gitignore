@@ -11,3 +11,10 @@ Makefile.in
 /depcomp
 /install-sh
 /missing
+
+css/client-amex.css
+css/client-capone.css
+index-amex.html
+index-capone.html
+js/client-amex.js
+js/client-capone.js
