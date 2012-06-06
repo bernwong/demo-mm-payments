@@ -323,25 +323,34 @@ AccountData.account = (function($) {
         }
     }
 
-    var add_src_acct =  function() {
-        var cItems = data.src_accounts;
-        var numItems = cItems.length;
-        var acctname = $('#newacctname').val();
-        var acctrouting = $('#newacctrouting').val();
-        var acctnum = $('#newacctnumber').val();
-        //check if routing number is valid
+    function add_src_acct() {
+        var acctname    = $('#newacctname').val(),
+            acctrouting = $('#newacctrouting').val(),
+            acctnum     = $('#newacctnumber').val();
+
+        // check if routing number is valid
         if (!(isNumber(acctrouting) && acctrouting.length == 9)) {
-      //      alert("invalid routing");
             return 1;
         }
+
         // check account number
         if (!(isNumber(acctnum) && acctnum.length == 10)) {
-      //      alert("invalid acct");
             return 2;
         }
-        cItems[numItems] = {"name": acctname, "routing": acctrouting, "number": acctnum};
+
+        data.src_accounts.push({
+            name:    acctname,
+            routing: acctrouting,
+            number:  acctnum
+        });
         _active_src_number = acctnum;
         populate_src_acct_info();
+
+        // Clear out the fields
+        $('#newacctname').removeAttr('value');
+        $('#newacctrouting').removeAttr('value');
+        $('#newacctnumber').removeAttr('value');
+
         return 0; 
     }
 
