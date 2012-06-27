@@ -14,7 +14,11 @@ Makefile.in
 
 css/client-amex.css
 css/client-capone.css
+css/client-premiumbank.css
 index-amex.html
 index-capone.html
+index-capone.html
+index-premiumbank.html
 js/client-amex.js
 js/client-capone.js
+js/client-premiumbank.js
