@@ -12,7 +12,7 @@
     <one-of>
       <!-- 1 thru 9 -->
       <item weight="0.1">
-        <ruleref uri="/content/paydemo/grammars/natural_numbers_thru_9_nozero.grxml#NATURALNUMBERS_1_THRU_9"/>
+        <ruleref uri="natural_numbers_thru_9_nozero.grxml#NATURALNUMBERS_1_THRU_9"/>
         <tag> out = rules.latest(); </tag>
       </item>
       <!-- 10 thru 99 -->

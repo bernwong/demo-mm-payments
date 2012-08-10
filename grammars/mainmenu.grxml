@@ -24,7 +24,7 @@
       <!-- [I want to] pay [my] bill [please] -->
       <!-- [I want to] pay [my] [credit] card [please] -->
       <item>
-        <ruleref uri="/content/paydemo/grammars/wanna.grxml"/>
+        <ruleref uri="wanna.grxml"/>
         <one-of>
           <item>
             make

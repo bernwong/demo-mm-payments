@@ -62,11 +62,11 @@
    </item>
 
    <item weight="0.23255">
-    <ruleref uri="/content/paydemo/grammars/natural_numbers_thru_999_nozero.grxml"/>
+    <ruleref uri="natural_numbers_thru_999_nozero.grxml"/>
     dollars
     <tag>out = rules.latest();</tag>
     <item repeat="0-1" repeat-prob="0.01" weight="0.25">
-      <ruleref uri="/content/paydemo/grammars/natural_numbers_thru_99_nozero.grxml"/>
+      <ruleref uri="natural_numbers_thru_99_nozero.grxml"/>
       cents
     <tag>out += '.' + rules.latest();</tag>
     </item>

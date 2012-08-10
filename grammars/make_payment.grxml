@@ -13,7 +13,7 @@
     };
   </tag>
 
-  <ruleref uri="/content/paydemo/grammars/wanna.grxml" />
+  <ruleref uri="wanna.grxml" />
 
   <one-of>
     <item>
@@ -33,17 +33,17 @@
       pay 
       <tag>out.SLOTS.action = "pay";</tag>
 
-      <ruleref uri="/content/paydemo/grammars/payment_amount.grxml"/>
+      <ruleref uri="payment_amount.grxml"/>
       <tag>out.SLOTS.amount = rules.latest();</tag>
 
       <item repeat="0-1">
-         from <ruleref uri="/content/paydemo/grammars/payment_src.grxml"/>
+         from <ruleref uri="payment_src.grxml"/>
          <tag>out.SLOTS.source = rules.latest();</tag>
       </item>
 
 <!--
       <item repeat="0-1">
-        to <ruleref uri="/content/paydemo/grammars/payment_dest.grxml"/>
+        to <ruleref uri="payment_dest.grxml"/>
         <tag>out.SLOTS.destination = rules.latest();</tag> 
       </item>
 -->
@@ -52,7 +52,7 @@
          <item>
            <one-of>
              <item>
-               on <ruleref uri="/content/paydemo/grammars/date.grxml"/>
+               on <ruleref uri="date.grxml"/>
                <tag>out.SLOTS.date = rules.latest();</tag>
              </item>
            </one-of>
@@ -88,7 +88,7 @@
       <tag>out.SLOTS.action = "changesource";</tag>
       <item repeat="0-1">
         to
-        <ruleref uri="/content/paydemo/grammars/payment_src.grxml"/>
+        <ruleref uri="payment_src.grxml"/>
         <tag>out.SLOTS.source = rules.latest();</tag>
       </item>
     </item>
@@ -99,7 +99,7 @@
       <item repeat="0-1">the</item>
       date to
       <tag>out.SLOTS.action = 'changedate';</tag>
-      <ruleref uri="/content/paydemo/grammars/date.grxml"/>
+      <ruleref uri="date.grxml"/>
       <tag>out.SLOTS.date = rules.latest()</tag>
     </item>
 
@@ -108,7 +108,7 @@
       <item repeat="0-1">the</item>
       amount to
       <tag>out.SLOTS.action = 'changeamount';</tag>
-      <ruleref uri="/content/paydemo/grammars/payment_amount.grxml"/>
+      <ruleref uri="payment_amount.grxml"/>
       <tag>out.SLOTS.amount = rules.latest()</tag>
     </item>
 

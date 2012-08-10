@@ -26,7 +26,7 @@
           account number is
           <tag>out.SLOTS.action = "add";</tag> 
           <item repeat="10">
-            <ruleref uri="/content/paydemo/grammars/digit.grxml" />
+            <ruleref uri="digit.grxml" />
             <tag>out.SLOTS.acctnumber += rules.latest();</tag>
           </item>
         </item>
@@ -37,7 +37,7 @@
           routing number is
           <tag>out.SLOTS.action = "add";</tag> 
           <item repeat="9">
-            <ruleref uri="/content/paydemo/grammars/digit.grxml" />
+            <ruleref uri="digit.grxml" />
             <tag>out.SLOTS.routenumber += rules.latest();</tag>
           </item>
         </item> 
